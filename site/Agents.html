@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KAI Agents | Specialist and Outcome Agents for Higher Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="agents.css">
+<script src="agents.js" defer></script>
+</head>
+<body>
+<div class="kai-site-page page-detail page-product">
+
+<header class="kai-header">
+  <div class="kai-header-inner">
+    <a class="kai-brand" href="Home.html">
+      <img src="assets/kai-color.png" alt="KAI">
+      <span>by Ken42</span>
+    </a>
+    <nav class="kai-nav" aria-label="Main">
+      <a href="Home.html">Home</a>
+      <div class="kai-menu is-current" data-menu role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        <div>Products</div>
+        <div class="kai-dropdown kai-dropdown--products" hidden>
+          <a href="Product-Chat.html">KAI Chat</a>
+          <a href="Product-Voice.html">KAI Voice</a>
+          <a href="Product-Intelligence.html">KAI Intelligence</a>
+          <a href="Agents.html" aria-current="page">KAI Agents</a>
+        </div>
+      </div>
+      <div class="kai-menu" data-menu role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        <div>Solutions</div>
+        <div class="kai-dropdown kai-dropdown--solutions" hidden>
+          <a href="Solutions-Marketing.html">Marketing &amp; Admissions</a>
+          <a href="Solutions-StudentLifecycle.html">Student Lifecycle</a>
+          <a href="Solutions-Careers.html">Careers &amp; Placements</a>
+          <a href="Solutions-Alumni.html">Alumni Engagement</a>
+          <a href="Solutions-Leadership.html">Institutional Teams &amp; Leadership</a>
+        </div>
+      </div>
+      <a href="Platform.html">Platform</a>
+      <a href="Ecosystem.html">Ecosystem</a>
+    </nav>
+    <a class="kai-nav-cta" href="Home.html#demo">Book a demo</a>
+  </div>
+</header>
+
+<div class="crumbs-bar">
+  <div class="wrap">
+    <nav class="crumbs mono" aria-label="Breadcrumb">
+      <a href="Home.html">Home</a><span>/</span>
+      <details>
+        <summary>Products ▾</summary>
+        <div class="crumbs-menu">
+          <a href="Product-Chat.html">KAI Chat</a>
+          <a href="Product-Voice.html">KAI Voice</a>
+          <a href="Product-Intelligence.html">KAI Intelligence</a>
+          <a href="Agents.html" aria-current="page">KAI Agents</a>
+        </div>
+      </details><span>/</span>
+      <span class="here" aria-current="page">KAI Agents</span>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <div class="eyebrow mono">KAI Agents</div>
+      <h1>Give it a goal. <span>Watch the work. See the result.</span></h1>
+      <p class="lede">An agent takes an objective, plans the work and runs it across Chat, Voice and Intelligence. You approve the plan. It reports back with the result.</p>
+    </div>
+  </section>
+
+  <!-- 01 / Specialist agents -->
+  <section class="agents-section wrap" aria-labelledby="spec-title">
+    <div class="agent-grid">
+      <div>
+        <div class="eyebrow mono">01 / Specialist agents</div>
+        <h2 id="spec-title">Know a function. Work it every day.</h2>
+        <p class="lede">Built around a role, with the knowledge and permissions that role needs. Hover an agent to see a day of its work.</p>
+        <ul class="agent-list" data-list="spec"></ul>
+      </div>
+      <div class="panel-frame spec-frame">
+        <div class="panel-card spec-card" data-panel="spec">
+          <div class="spec-head">
+            <div class="spec-title"><span class="orb" aria-hidden="true"></span><span class="card-name" data-name></span></div>
+            <span class="spec-clock nowrap"><span class="live-dot" aria-hidden="true"></span><span data-clock></span></span>
+          </div>
+          <div class="spec-job">
+            <div class="panel-label mono">Today's job</div>
+            <div class="spec-goal" data-goal></div>
+          </div>
+          <div class="spec-rows" data-rows></div>
+          <div class="spec-result">
+            <div class="panel-label mono">The result</div>
+            <div class="spec-figure"><span class="spec-count" data-count></span><span class="spec-unit" data-unit></span></div>
+            <div>
+              <div class="progress-meta"><span>Progress</span><span data-pct></span></div>
+              <div class="progress-track"><div class="progress-fill" data-bar></div></div>
+            </div>
+            <div class="spec-note rise" data-note></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 / Outcome agents -->
+  <section class="outcome-band" aria-labelledby="out-title">
+    <div class="inner">
+      <div class="agent-grid">
+        <div>
+          <div class="eyebrow mono">02 / Outcome agents</div>
+          <h2 id="out-title">Set a target. It works backwards.</h2>
+          <p class="lede">Given a number to hit, each agent finds who to focus on and what will move it. Hover an agent to watch it close in on a target.</p>
+          <ul class="agent-list" data-list="out"></ul>
+        </div>
+        <div class="panel-frame out-frame">
+          <div class="panel-card out-card" data-panel="out">
+            <div class="out-head"><span class="card-name" data-name></span><span class="out-clock mono nowrap" data-clock></span></div>
+            <div class="out-goal" data-goal></div>
+            <div class="out-body">
+              <div class="ring">
+                <svg viewBox="0 0 160 160" width="100%" height="100%" aria-hidden="true">
+                  <circle cx="80" cy="80" r="66" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="12"></circle>
+                  <circle class="ring-fill" cx="80" cy="80" r="66" fill="none" stroke="#00C2FF" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 414.7" data-ring></circle>
+                </svg>
+                <div class="ring-label"><span class="out-count" data-count></span><span class="out-unit" data-unit></span></div>
+              </div>
+              <div class="out-steps" data-rows></div>
+            </div>
+            <div class="out-result">
+              <span class="panel-label mono">The result</span>
+              <div class="out-note rise" data-note></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing wrap">
+    <h2>See an agent work on your objective</h2>
+    <span class="closing-arrow" aria-hidden="true">→</span>
+    <a class="pill-cta" href="Home.html#demo">Book a demo</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="footer-top">
+      <div class="footer-about">
+        <img src="assets/kai-inverted.png" alt="KAI">
+        <p>KAI is the AI engagement and intelligence layer for higher education.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <ul>
+            <li><a href="Product-Chat.html">KAI Chat</a></li>
+            <li><a href="Product-Voice.html">KAI Voice</a></li>
+            <li><a href="Product-Intelligence.html">KAI Intelligence</a></li>
+            <li><a href="Agents.html">KAI Agents</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Solutions</div>
+          <ul>
+            <li><a href="Solutions-Marketing.html">Marketing &amp; Admissions</a></li>
+            <li><a href="Solutions-StudentLifecycle.html">Student Lifecycle</a></li>
+            <li><a href="Solutions-Careers.html">Careers &amp; Placements</a></li>
+            <li><a href="Solutions-Alumni.html">Alumni Engagement</a></li>
+            <li><a href="Solutions-Leadership.html">Institutional Teams &amp; Leadership</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>© Ken42 2026</span>
+      <a href="/terms-and-conditions">Terms and Conditions</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms-of-use">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

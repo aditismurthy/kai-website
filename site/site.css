@@ -1,0 +1,678 @@
+:root {
+  --kai-navy: #102640;
+  --kai-blue: #187dff;
+  --kai-border: rgba(16, 38, 64, 0.14);
+  --kai-muted: rgba(16, 38, 64, 0.72);
+  --kai-heading-font: "Inter", Arial, sans-serif;
+  --kai-body-font: "IBM Plex Sans", Arial, sans-serif;
+  --kai-label-font: "DM Mono", "SFMono-Regular", Consolas, monospace;
+  font-synthesis: none;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  width: 100%;
+  min-width: 320px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  margin: 0;
+  overflow-x: hidden;
+  background: #fff;
+  color: var(--kai-navy);
+  font-family: var(--kai-body-font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.kai-site-page {
+  width: 100%;
+  min-width: 0;
+  padding-top: 64px;
+  font-family: var(--kai-body-font) !important;
+}
+
+.kai-site-page h1,
+.kai-site-page h2,
+.kai-site-page h3,
+.kai-site-page h4,
+.kai-site-page h5,
+.kai-site-page h6 {
+  font-family: var(--kai-heading-font) !important;
+  font-style: normal;
+  text-wrap: balance;
+}
+
+.kai-site-page h1 {
+  font-size: clamp(2rem, 4.2vw, 3.25rem) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.04em !important;
+  font-weight: 700 !important;
+}
+
+.kai-site-page.page-product h1 {
+  font-size: clamp(1.75rem, 3vw, 2.375rem) !important;
+}
+
+.kai-site-page.page-product h2 {
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem) !important;
+}
+
+.kai-site-page h2 {
+  font-size: clamp(1.625rem, 3.2vw, 2.5rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 700 !important;
+}
+
+.kai-site-page h3 {
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 600 !important;
+}
+
+.kai-site-page p {
+  font-family: var(--kai-body-font) !important;
+  overflow-wrap: break-word;
+}
+
+.kai-site-page button,
+.kai-site-page input,
+.kai-site-page textarea,
+.kai-site-page select {
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.kai-site-page img,
+.kai-site-page video,
+.kai-site-page canvas,
+.kai-site-page iframe,
+.kai-site-page svg {
+  max-width: 100%;
+}
+
+.page-home #heroDemoFrame {
+  max-width: none !important;
+}
+
+.page-home .kai-cap-card {
+  height: 640px;
+  overflow: hidden;
+}
+
+.page-home .kai-cap-visual {
+  flex: 1 1 250px;
+  height: auto;
+  min-height: 190px;
+  max-height: none;
+}
+
+.page-home .kai-cap-messages {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.page-home .kai-cap-messages > div {
+  padding: 10px 13px !important;
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+}
+
+.page-home .kai-cap-messages > div > span {
+  margin-bottom: 6px !important;
+  font-size: 9.5px !important;
+}
+
+.page-home .kai-cap-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.page-home .kai-cap-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.page-home .kai-cap-meta {
+  flex: 0 0 auto;
+}
+
+.page-home .kai-cap-cta {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+
+.page-home .kai-agent-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  margin-bottom: 32px;
+}
+
+.page-home .kai-agent-group {
+  display: grid;
+  grid-template-rows: auto auto minmax(180px, 1fr);
+  gap: 18px;
+}
+
+.page-home .kai-agent-intro,
+.page-home .kai-agent-example {
+  min-height: 180px;
+}
+
+.page-home .kai-demo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.page-home .kai-demo-copy {
+  max-width: 760px;
+}
+
+.page-home .kai-demo-form {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.page-home .kai-demo-form > input {
+  grid-column: span 2;
+}
+
+.page-home .kai-demo-choice {
+  grid-column: span 10;
+}
+
+.page-home .kai-demo-notes {
+  grid-column: span 8;
+}
+
+.page-home .kai-demo-submit {
+  grid-column: span 2;
+  align-self: end;
+  min-height: 76px;
+}
+
+.kai-site-page img,
+.kai-site-page video {
+  height: auto;
+}
+
+.kai-header {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 60;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-bottom: 1px solid var(--kai-border) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.kai-header-inner {
+  width: 100%;
+  min-height: 64px;
+  display: flex !important;
+  grid-template-columns: none !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: nowrap !important;
+  gap: clamp(16px, 2vw, 28px) !important;
+  padding: 12px clamp(20px, 4vw, 40px) !important;
+}
+
+.kai-brand {
+  display: flex !important;
+  flex: 0 0 auto;
+  align-items: center !important;
+  gap: 11px !important;
+  min-width: 128px;
+  text-decoration: none;
+}
+
+.kai-brand img {
+  display: block;
+  width: auto !important;
+  height: 23px !important;
+}
+
+.kai-nav {
+  min-width: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap !important;
+  gap: clamp(14px, 2vw, 28px) !important;
+  margin-left: auto !important;
+}
+
+.kai-nav > a,
+.kai-nav > .kai-menu > div:first-child {
+  font-family: var(--kai-label-font) !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap;
+}
+
+.kai-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.kai-menu:focus-visible {
+  outline: 2px solid var(--kai-blue);
+  outline-offset: 5px;
+}
+
+.kai-nav-cta {
+  flex: 0 0 auto;
+  font-family: var(--kai-heading-font) !important;
+  font-size: 12.5px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
+  white-space: nowrap;
+}
+
+.page-legal .kai-brand span {
+  font-family: var(--kai-label-font);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--kai-muted);
+}
+
+.page-legal .kai-nav a {
+  color: var(--kai-muted);
+  text-decoration: none;
+}
+
+.page-legal .kai-nav-cta {
+  padding: 11px 20px;
+  background: var(--kai-navy);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.legal-shell {
+  width: min(100% - 40px, 920px);
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 96px) 0 80px;
+}
+
+.legal-eyebrow {
+  margin-bottom: 18px;
+  color: var(--kai-blue);
+  font-family: var(--kai-label-font);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.legal-shell > h1 {
+  margin: 0 0 48px;
+}
+
+.legal-content {
+  max-width: 78ch;
+}
+
+.legal-content h2 {
+  margin: 52px 0 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--kai-border);
+}
+
+.legal-content h3 {
+  margin: 34px 0 12px;
+  font-size: 1.2rem;
+}
+
+.legal-content p {
+  margin: 0 0 18px;
+  color: rgba(16, 38, 64, 0.78);
+  line-height: 1.75;
+}
+
+.legal-content .legal-list {
+  position: relative;
+  padding-left: 24px;
+}
+
+.legal-content .legal-list::before {
+  content: "";
+  position: absolute;
+  top: 0.75em;
+  left: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--kai-blue);
+}
+
+.legal-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px clamp(20px, 4vw, 40px);
+  background: var(--kai-navy);
+  color: rgba(255, 255, 255, 0.58);
+  font-family: var(--kai-label-font);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+}
+
+.legal-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.legal-footer a {
+  color: rgba(255, 255, 255, 0.74);
+  text-decoration: none;
+}
+
+@media (max-width: 1050px) {
+  .kai-site-page {
+    padding-top: 104px;
+  }
+
+  .kai-header-inner {
+    min-height: 104px;
+    flex-wrap: wrap !important;
+    row-gap: 10px !important;
+  }
+
+  .kai-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    overflow: visible;
+    margin-left: 0 !important;
+    padding: 2px 0 5px;
+  }
+
+  .kai-header-inner > .kai-nav-cta {
+    margin-left: auto;
+  }
+
+  .kai-menu sc-if > div,
+  .kai-menu > div:not(:first-child) {
+    position: fixed !important;
+    top: 104px !important;
+    right: 16px !important;
+    left: 16px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .kai-site-page {
+    padding-top: 124px;
+  }
+
+  .kai-header-inner {
+    min-height: 124px;
+    padding: 11px 16px !important;
+  }
+
+  .kai-brand {
+    min-width: 0;
+  }
+
+  .kai-brand img {
+    height: 21px !important;
+  }
+
+  .kai-nav {
+    gap: 11px 18px !important;
+    flex-wrap: wrap !important;
+    overflow: visible;
+    padding: 2px 0 5px;
+  }
+
+  .kai-nav > a,
+  .kai-nav > .kai-menu > div:first-child {
+    font-size: 10.5px !important;
+  }
+
+  .kai-nav-cta {
+    padding: 10px 15px !important;
+  }
+
+  .page-home .kai-nav-cta {
+    margin-left: 0;
+  }
+
+  .kai-menu sc-if > div,
+  .kai-menu > div:not(:first-child) {
+    top: 124px !important;
+    right: 16px !important;
+    left: 16px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: calc(100vh - 140px);
+  }
+
+  .kai-site-page h1 {
+    font-size: clamp(2rem, 9vw, 2.75rem) !important;
+  }
+
+  .kai-site-page h2 {
+    font-size: clamp(1.55rem, 7vw, 2.125rem) !important;
+  }
+
+  .kai-site-page [style*="grid-template-columns:repeat(7"],
+  .kai-site-page [style*="grid-template-columns:repeat(6"],
+  .kai-site-page [style*="grid-template-columns:repeat(5"],
+  .kai-site-page [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .kai-site-page [style*="grid-template-columns:repeat(3"],
+  .kai-site-page [style*="grid-template-columns:repeat(2"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .kai-site-page [style*="min-width:180px"],
+  .kai-site-page [style*="min-width:220px"],
+  .kai-site-page [style*="min-width:260px"],
+  .kai-site-page [style*="min-width:280px"],
+  .kai-site-page [style*="min-width:300px"] {
+    min-width: min(100%, 180px) !important;
+  }
+
+  .kai-site-page [style*="white-space:nowrap"] {
+    white-space: normal !important;
+  }
+
+  .page-home #heroDemoWrap {
+    width: 100%;
+    height: 440px;
+    aspect-ratio: auto !important;
+  }
+
+  .page-home .kai-cap-card {
+    height: 690px;
+  }
+
+  .page-home .kai-cap-visual {
+    min-height: 220px;
+  }
+
+  .page-home .kai-cap-messages > div {
+    padding: 9px 11px !important;
+    font-size: 13px !important;
+  }
+
+  .page-home .kai-agent-groups {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .page-home .kai-agent-group {
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+  }
+
+  .page-home .kai-agent-intro,
+  .page-home .kai-agent-example {
+    min-height: 0;
+  }
+
+  .page-home .kai-demo-shell {
+    padding-top: 44px !important;
+    padding-bottom: 44px !important;
+  }
+
+  .page-home .kai-demo-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .page-home .kai-demo-copy {
+    max-width: none;
+  }
+
+  .page-home .kai-demo-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+  }
+
+  .page-home .kai-demo-form > input {
+    grid-column: span 1;
+  }
+
+  .page-home .kai-demo-form > .kai-demo-phone,
+  .page-home .kai-demo-choice,
+  .page-home .kai-demo-notes,
+  .page-home .kai-demo-submit {
+    grid-column: span 2;
+  }
+
+  .page-home .kai-demo-card {
+    padding: 18px !important;
+  }
+
+  .page-home .kai-demo-form input,
+  .page-home .kai-demo-form textarea {
+    padding: 12px 13px !important;
+  }
+
+  .page-home .kai-demo-choice [style*="padding:12px 18px"] {
+    padding: 9px 12px !important;
+    font-size: 12.5px !important;
+    flex: 0 0 auto;
+  }
+
+  .page-home .kai-demo-choice > div:last-child {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .page-home .kai-demo-submit {
+    min-height: 48px;
+  }
+
+  .legal-shell {
+    width: min(100% - 32px, 920px);
+    padding-top: 48px;
+  }
+
+  .legal-shell > h1 {
+    margin-bottom: 36px;
+  }
+
+  .legal-content h2 {
+    margin-top: 40px;
+  }
+
+  .legal-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .kai-header-inner {
+    padding-inline: 14px !important;
+  }
+
+  .kai-site-page h1 {
+    font-size: clamp(1.875rem, 9.5vw, 2.35rem) !important;
+  }
+
+  .kai-site-page h2 {
+    font-size: clamp(1.45rem, 7.5vw, 1.9rem) !important;
+  }
+
+  .kai-site-page [style*="grid-template-columns:repeat(7"],
+  .kai-site-page [style*="grid-template-columns:repeat(6"],
+  .kai-site-page [style*="grid-template-columns:repeat(5"],
+  .kai-site-page [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+}
+
+@media (max-width: 340px) {
+  .page-home .kai-demo-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-home .kai-demo-form > input,
+  .page-home .kai-demo-form > .kai-demo-phone,
+  .page-home .kai-demo-choice,
+  .page-home .kai-demo-notes,
+  .page-home .kai-demo-submit {
+    grid-column: 1;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .kai-site-page *,
+  .kai-site-page *::before,
+  .kai-site-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
