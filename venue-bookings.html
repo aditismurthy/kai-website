@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ken42 — Venue Bookings</title>
+<title>Ken42 · Venue Bookings</title>
 <meta name="description" content="Discover and reserve campus spaces instantly. From sports facilities to academic halls, locate and secure the perfect venue to match your needs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,8 +93,47 @@
   .feature-inline b{color:#fff;font-family:var(--font-ui);font-weight:600;}
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
 
-  /* floating visual card on hero */
-  .hero-card-wrap{margin-top:44px;}
+  /* hero split: accordion left, points right */
+  .hero-split{display:grid;grid-template-columns:1.55fr 1fr;gap:44px;align-items:start;margin-top:46px;}
+  .hero-visual .filters{margin-bottom:14px;}
+  .view-all{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-family:var(--font-ui);font-weight:600;font-size:13px;color:#8FC4FF;}
+  .view-all:hover{color:#fff;}
+  .hero-points{padding-top:6px;}
+  .points-title{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5E6B85;margin:0 0 20px;}
+  .point-list.on-dark{gap:24px;}
+  .point-list.on-dark .ic{background:rgba(30,112,255,.16);border-color:rgba(30,112,255,.42);color:#8FC4FF;}
+  .point-list.on-dark h3{color:#fff;}
+  .point-list.on-dark p{color:#AEB9CC;}
+
+  /* ---------- HORIZONTAL ACCORDION ---------- */
+  .accordion{display:flex;gap:12px;height:360px;width:100%;}
+  .apanel{position:relative;flex:1 1 0;min-width:60px;border-radius:16px;overflow:hidden;cursor:pointer;
+    background:linear-gradient(165deg,#2C7BFF 0%, #0F52CF 100%);
+    box-shadow:0 22px 44px -26px rgba(0,0,0,.65);
+    transition:flex-grow .55s cubic-bezier(.4,0,.2,1);}
+  .apanel::after{content:"";position:absolute;inset:0;background:radial-gradient(130% 80% at 85% 0%, rgba(64,197,235,.40), transparent 58%);opacity:.6;pointer-events:none;}
+  .apanel.active{flex-grow:5;background:linear-gradient(165deg,#1E70FF 0%, #0B3B9C 100%);}
+  .apanel .spine{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;opacity:1;transition:opacity .3s ease;}
+  .apanel.active .spine{opacity:0;pointer-events:none;}
+  .spine .pic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#fff;}
+  .spine .pic svg{width:20px;height:20px;}
+  .spine .vname{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-ui);font-weight:600;font-size:14px;color:#fff;white-space:nowrap;letter-spacing:.01em;}
+  .spine .vslots{font-family:var(--font-ui);font-weight:800;font-size:18px;color:#fff;}
+  .apanel .detail{position:absolute;inset:0;z-index:2;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;min-width:280px;opacity:0;pointer-events:none;transition:opacity .4s ease .12s;}
+  .apanel.active .detail{opacity:1;pointer-events:auto;}
+  .detail .d-top{display:flex;align-items:flex-start;justify-content:space-between;}
+  .detail .pic{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;}
+  .detail .pic svg{width:23px;height:23px;}
+  .detail .cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#CFE2FF;background:rgba(255,255,255,.12);padding:5px 10px;border-radius:999px;}
+  .detail .dname{font-family:var(--font-ui);font-weight:800;font-size:22px;line-height:1.15;color:#fff;letter-spacing:-0.01em;}
+  .detail .dmeta{font-size:13px;color:#CFE2FF;margin-top:6px;line-height:1.5;}
+  .detail .d-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .detail .dslots .n{font-family:var(--font-ui);font-weight:800;font-size:30px;color:#fff;line-height:1;}
+  .detail .dslots .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#CFE2FF;display:block;margin-top:4px;}
+  .detail .book{font-family:var(--font-ui);font-weight:600;font-size:13px;background:#fff;color:#1E70FF;border-radius:var(--radius-pill);padding:10px 18px;white-space:nowrap;transition:transform .15s ease;}
+  .detail .book:hover{transform:translateY(-1px);}
+  @media(max-width:900px){.hero-split{grid-template-columns:1fr;gap:34px;}.accordion{height:320px;}}
+  @media(max-width:560px){.accordion{flex-direction:column;height:auto;}.apanel{min-width:0;}.apanel .spine{flex-direction:row;justify-content:flex-start;gap:14px;padding:14px 16px;}.spine .vname{writing-mode:horizontal-tb;transform:none;}.apanel.active{flex-grow:0;}.apanel .detail{position:relative;min-width:0;}.apanel:not(.active) .detail{display:none;}}
 
   /* ---------- BROWSER / VISUAL FRAME ---------- */
   .frame{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 40px 90px -34px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.04);}
@@ -292,40 +331,33 @@
     <span class="eyebrow on-dark"><span class="dot"></span>KEN42 · VENUE BOOKINGS</span>
     <h1>Discover and reserve campus spaces <span class="serif">instantly.</span></h1>
     <p class="standfirst">From sports facilities to academic halls, locate and secure the perfect venue to match your needs.</p>
-    <ul class="feature-inline">
-      <li><span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#8FC4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Comprehensive inventory</b> — courts, gyms, rooms, classrooms, auditoriums.</span></li>
-      <li><span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#8FC4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Flexible search</b> — by location, timing and capacity.</span></li>
-      <li><span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#8FC4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Frictionless booking</b> — directly, without multiple approvals.</span></li>
-    </ul>
     <div class="hero-actions">
       <a href="#demo" class="btn btn-primary">See Venue Bookings in action →</a>
       <a href="#who" class="btn btn-ghost-dark">How it works</a>
     </div>
 
-    <!-- VISUAL 1: one list of spaces with live filters -->
-    <div class="hero-card-wrap">
-      <div class="frame">
-        <div class="frame-bar">
-          <div class="dots"><span></span><span></span><span></span></div>
-          <div class="frame-url"><span class="lock">🔒</span>ken42.edu/venues<span class="live"><i></i>LIVE</span></div>
+    <div class="hero-split">
+      <!-- LEFT: horizontal accordion of spaces -->
+      <div class="hero-visual">
+        <div class="filters" id="filters">
+          <button class="filter on" data-cat="all">All <span class="count">14</span></button>
+          <button class="filter" data-cat="sports">Sports <span class="count">5</span></button>
+          <button class="filter" data-cat="fitness">Fitness <span class="count">3</span></button>
+          <button class="filter" data-cat="rooms">Rooms <span class="count">6</span></button>
         </div>
-        <div class="frame-body">
-          <div class="list-head">
-            <div class="title">Every bookable space · <b id="shownCount">14</b></div>
-            <div class="list-search">
-              <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="#74818D" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#74818D" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Search spaces…
-            </div>
-          </div>
-          <div class="filters" id="filters">
-            <button class="filter on" data-cat="all">All <span class="count">14</span></button>
-            <button class="filter" data-cat="sports">Sports <span class="count">5</span></button>
-            <button class="filter" data-cat="fitness">Fitness <span class="count">3</span></button>
-            <button class="filter" data-cat="rooms">Rooms <span class="count">6</span></button>
-          </div>
-          <div class="space-list" id="spaceList"></div>
-        </div>
+        <div class="accordion" id="accordion"></div>
+        <a class="view-all" href="#">View all 14 spaces →</a>
       </div>
+
+      <!-- RIGHT: the three points -->
+      <aside class="hero-points">
+        <div class="points-title">What you get</div>
+        <ul class="point-list on-dark">
+          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M3 9l3.5 3.5L15 5" stroke="#8FC4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Comprehensive inventory</h3><p>Courts, gyms, rooms, classrooms and auditoriums.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5" stroke="#8FC4FF" stroke-width="1.7"/><path d="M12 12l3 3" stroke="#8FC4FF" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><h3>Flexible search</h3><p>Filter by location, timing and capacity.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L9 11.3 5.3 13.3l.7-4.3-3.1-3 4.3-.6z" stroke="#8FC4FF" stroke-width="1.4" stroke-linejoin="round"/></svg></span><div><h3>Frictionless booking</h3><p>Reserve directly, without multiple approvals.</p></div></li>
+        </ul>
+      </aside>
     </div>
   </div>
 </section>
@@ -348,7 +380,7 @@
 <section class="block light">
   <div class="wrap">
     <div class="split rev">
-      <!-- VISUAL 2: interactive booking — the count ticks down -->
+      <!-- VISUAL 2: interactive booking, the count ticks down -->
       <div class="frame">
         <div class="frame-bar">
           <div class="dots"><span></span><span></span><span></span></div>
@@ -373,7 +405,7 @@
               </div>
               <div class="confirm" id="confirmMsg">
                 <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.3L4.8 8.6L9.5 3.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <span class="txt"><b>Confirmed — 5–6 PM, Room 301.</b> It's under your bookings, and the slot count just dropped.</span>
+                <span class="txt"><b>Confirmed for 5 to 6 PM, Room 301.</b> It's under your bookings, and the slot count just dropped.</span>
               </div>
             </div>
           </div>
@@ -383,10 +415,10 @@
       <div class="copy">
         <span class="eyebrow"><span class="dot"></span>Who can book a space?</span>
         <h2>Anyone within the campus <span class="serif">community.</span></h2>
-        <p class="lead">Students, faculty, alumni and visiting employers can reserve venues — for any type of event or activity.</p>
+        <p class="lead">Students, faculty, alumni and visiting employers can reserve venues for any type of event or activity.</p>
         <ul class="point-list">
           <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#1E70FF" stroke-width="1.6"/><path d="M3.5 15c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><h3>Open access</h3><p>Spaces are open to everyone on campus for any type of event or activity.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><h3>Configurable event requirements</h3><p>Request add-ons directly — custom lighting, extended hours, catering, decorations and furniture setups.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><h3>Configurable event requirements</h3><p>Request add-ons directly: custom lighting, extended hours, catering, decorations and furniture setups.</p></div></li>
           <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L9 11.3 5.3 13.3l.7-4.3-3.1-3 4.3-.6z" stroke="#1E70FF" stroke-width="1.4" stroke-linejoin="round"/></svg></span><div><h3>Instant confirmation</h3><p>For pre-approved, non-paid venues, choose your slot, state your purpose and get an on-the-spot confirmation.</p></div></li>
           <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5v15M12.5 5c0-1.4-1.6-2.3-3.5-2.3S5.5 3.6 5.5 5s1.6 2.1 3.5 2.4 3.5 1 3.5 2.6-1.6 2.3-3.5 2.3S5.5 13.4 5.5 12" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><h3>Transparent pricing</h3><p>The system distinguishes paid from non-paid venues, showing real-time duration limits and charges before you finalise.</p></div></li>
         </ul>
@@ -434,7 +466,7 @@
         </div>
         <div class="admin-note">
           <div class="toggle" role="img" aria-label="Student booking enabled"></div>
-          <div class="txt"><b>Student booking is a control you own.</b> Turn self-service booking on for students<span class="state">● On</span> — or off entirely — for the spaces you choose.</div>
+          <div class="txt"><b>Student booking is a control you own.</b> Turn self-service booking on for students<span class="state">● On</span>, or off entirely, for the spaces you choose.</div>
         </div>
       </div>
     </div>
@@ -470,7 +502,7 @@
   <div class="wrap">
     <span class="eyebrow"><span class="dot"></span>Ken42 Venue Bookings</span>
     <h2>Put the whole estate on one list.</h2>
-    <p>See how your campus can discover, book and manage every space from a single view — with the rules you set.</p>
+    <p>See how your campus can discover, book and manage every space from a single view, with the rules you set.</p>
     <div class="hero-actions">
       <a href="#" class="btn btn-primary">Talk to us →</a>
       <a href="#top" class="btn btn-ghost-dark">Back to top</a>
@@ -530,21 +562,32 @@
     room:'<svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4" width="13" height="12" rx="1.5" stroke="#fff" stroke-width="1.5"/><path d="M3.5 8h13M7 4v12" stroke="#fff" stroke-width="1.3"/></svg>'
   };
 
-  var listEl = document.getElementById('spaceList');
+  var accEl = document.getElementById('accordion');
   var filterEls = document.querySelectorAll('.filter');
-  var shownCount = document.getElementById('shownCount');
+  var MAX_PANELS = 6;
+  function catLabel(c){ return c === 'sports' ? 'Sports' : c === 'fitness' ? 'Fitness' : 'Room'; }
   function render(cat){
-    listEl.innerHTML = "";
-    var shown = spaces.filter(function(s){ return cat === "all" || s.cat === cat; });
-    if(shownCount) shownCount.textContent = shown.length;
-    shown.forEach(function(s){
+    accEl.innerHTML = "";
+    var shown = spaces.filter(function(s){ return cat === "all" || s.cat === cat; }).slice(0, MAX_PANELS);
+    shown.forEach(function(s, i){
+      var hours = s.hours.replace(' – ', ' to ');
       var el = document.createElement('div');
-      el.className = "space";
+      el.className = "apanel" + (i === 0 ? " active" : "");
       el.innerHTML =
-        '<div class="thumb">'+icons[s.icon]+'</div>'+
-        '<div><div class="name">'+s.name+'</div><div class="meta"><b>'+s.block+'</b> · Holds '+s.cap+' · '+s.hours+'</div></div>'+
-        '<div class="slots"><div class="n">'+s.slots+'</div><div class="lbl">slots left</div></div>';
-      listEl.appendChild(el);
+        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots">'+s.slots+'</div></div>'+
+        '<div class="detail">'+
+          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+catLabel(s.cat)+'</div></div>'+
+          '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div></div>'+
+          '<div class="d-foot"><div class="dslots"><span class="n">'+s.slots+'</span><span class="l">slots left today</span></div><a class="book" href="#">Book this space</a></div>'+
+        '</div>';
+      function activate(){
+        var cur = accEl.querySelector('.apanel.active');
+        if(cur) cur.classList.remove('active');
+        el.classList.add('active');
+      }
+      el.addEventListener('mouseenter', activate);
+      el.addEventListener('click', activate);
+      accEl.appendChild(el);
     });
   }
   filterEls.forEach(function(btn){
