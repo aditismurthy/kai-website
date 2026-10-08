@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ken42 — Venue Bookings</title>
+<meta name="description" content="Discover and reserve campus spaces instantly. From sports facilities to academic halls, locate and secure the perfect venue to match your needs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2540;
+    --mist:#F4F4F3;
+    --card:#FFFFFF;
+    --kai-signal:#1E70FF;
+    --cyan:#0FA8D6;
+    --slate:#74818D;
+    --line:#E4E6E8;
+    --neutral-bar:#C9D2DE;
+    --green:#1F9254;
+    --green-fill:#EAF8EF;
+    --green-line:#C7ECD3;
+    --red:#D64550;
+    --warm-white:#FBF3E9;
+    --kai-tint:#EEF4FF;
+    --kai-tint-line:#D8E5FF;
+    --kai-chip-line:#C9DBFF;
+    --ken42-navy:#102540;
+    --ken42-blue:#2689EF;
+    --gradient-signal:linear-gradient(135deg, var(--kai-signal), var(--cyan));
+    --font-ui:'Inter','Helvetica Neue',Helvetica,sans-serif;
+    --font-body:'IBM Plex Sans','Helvetica Neue',sans-serif;
+    --font-serif:'IBM Plex Serif',Georgia,serif;
+    --font-mono:'DM Mono',ui-monospace,'SFMono-Regular',monospace;
+    --radius-card:8px;
+    --radius-bubble:14px;
+    --radius-pill:999px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--mist);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:var(--font-ui);margin:0;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--kai-signal);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--kai-signal);}
+  .btn{
+    font-family:var(--font-ui);
+    font-weight:600;
+    font-size:14px;
+    border-radius:var(--radius-pill);
+    padding:11px 20px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn-primary{background:var(--kai-signal);color:#fff;box-shadow:0 8px 20px -8px rgba(30,112,255,.6);}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 26px -8px rgba(30,112,255,.7);}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--kai-signal);color:var(--kai-signal);}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,244,243,.82);
+    backdrop-filter:saturate(1.4) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{display:flex;align-items:baseline;gap:9px;}
+  .brand .logo{
+    font-family:var(--font-ui);font-weight:800;font-size:22px;letter-spacing:-0.02em;color:var(--ken42-navy);
+  }
+  .brand .logo b{color:var(--ken42-blue);}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links a{font-family:var(--font-ui);font-weight:500;font-size:14px;color:var(--slate);transition:color .2s ease;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.active{color:var(--ink);font-weight:600;}
+  .nav-cta{display:flex;align-items:center;gap:14px;}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px;}
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .nav-cta .btn-ghost{display:none;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;padding:72px 0 44px;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(30,112,255,.07), transparent 42%),
+      radial-gradient(circle at 92% 20%, rgba(15,168,214,.07), transparent 46%),
+      var(--mist);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;}
+  .hero h1{
+    font-weight:800;font-size:clamp(34px,4.6vw,52px);line-height:1.06;letter-spacing:-0.025em;
+    margin:18px 0 6px;text-wrap:balance;
+  }
+  .hero .lede-serif{font-family:var(--font-serif);font-style:italic;font-size:clamp(19px,2.2vw,24px);color:var(--kai-signal);line-height:1.3;margin:0 0 16px;}
+  .hero .standfirst{font-size:17px;color:var(--ink);max-width:48ch;margin:0 0 26px;}
+  .feature-list{list-style:none;padding:0;margin:0 0 30px;display:flex;flex-direction:column;gap:14px;}
+  .feature-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;}
+  .feature-list .ic{
+    flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--kai-tint);border:1px solid var(--kai-tint-line);
+    display:flex;align-items:center;justify-content:center;margin-top:1px;
+  }
+  .feature-list .ic svg{width:13px;height:13px;}
+  .feature-list b{font-family:var(--font-ui);font-weight:600;}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+
+  /* ---------- BROWSER / VISUAL FRAME ---------- */
+  .frame{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    box-shadow:0 34px 80px -30px rgba(26,37,64,.28), 0 1px 0 rgba(26,37,64,.02);
+  }
+  .frame-bar{display:flex;align-items:center;gap:8px;padding:11px 15px;background:#FAFAF9;border-bottom:1px solid var(--line);}
+  .frame-bar .dots{display:flex;gap:6px;}
+  .frame-bar .dots span{width:9px;height:9px;border-radius:50%;background:#D8DADD;}
+  .frame-url{flex:1;margin-left:8px;background:#F1F2F3;border-radius:7px;padding:5px 12px;color:var(--slate);
+    font-family:var(--font-mono);font-size:11px;display:flex;align-items:center;gap:6px;}
+  .frame-url .lock{opacity:.5;font-size:10px;}
+  .frame-body{padding:18px;}
+
+  /* filter chips + space cards */
+  .filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+  .filters::-webkit-scrollbar{display:none;}
+  .filter{
+    font-family:var(--font-ui);font-weight:600;font-size:12.5px;white-space:nowrap;
+    padding:7px 14px;border-radius:var(--radius-pill);border:1px solid var(--line);background:#fff;color:var(--slate);
+    cursor:pointer;transition:all .18s ease;display:flex;align-items:center;gap:7px;
+  }
+  .filter .count{font-family:var(--font-mono);font-size:11px;opacity:.9;}
+  .filter.on{background:var(--kai-tint);border-color:var(--kai-chip-line);color:var(--kai-signal);}
+  .space-list{display:flex;flex-direction:column;gap:10px;max-height:330px;overflow:auto;scrollbar-width:thin;}
+  .space{
+    display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff;transition:border-color .18s ease, box-shadow .18s ease;
+  }
+  .space:hover{border-color:var(--kai-chip-line);box-shadow:0 6px 18px -12px rgba(26,37,64,.3);}
+  .space .thumb{width:40px;height:40px;border-radius:9px;background:var(--gradient-signal);display:flex;align-items:center;justify-content:center;color:#fff;}
+  .space .thumb svg{width:19px;height:19px;}
+  .space .name{font-family:var(--font-ui);font-weight:600;font-size:14px;}
+  .space .meta{font-size:12px;color:var(--slate);margin-top:2px;}
+  .space .meta b{color:var(--ink);font-weight:600;}
+  .space .slots{text-align:right;}
+  .space .slots .n{font-family:var(--font-ui);font-weight:700;font-size:19px;color:var(--kai-signal);}
+  .space .slots .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);}
+  .space.gone{opacity:.45;}
+  .space.gone .slots .n{color:var(--slate);}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:68px 0;}
+  .sec-head{max-width:720px;margin-bottom:40px;}
+  .sec-head h2{font-weight:700;font-size:clamp(26px,3.3vw,36px);line-height:1.14;letter-spacing:-0.02em;margin:14px 0 12px;text-wrap:balance;}
+  .sec-head p{font-size:17px;color:var(--slate);margin:0;}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .split.rev .copy{order:2;}
+
+  .point-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px;}
+  .point-list li{display:flex;gap:14px;}
+  .point-list .ic{flex-shrink:0;width:34px;height:34px;border-radius:9px;background:var(--kai-tint);border:1px solid var(--kai-tint-line);
+    display:flex;align-items:center;justify-content:center;color:var(--kai-signal);}
+  .point-list .ic svg{width:17px;height:17px;}
+  .point-list h3{font-family:var(--font-ui);font-weight:600;font-size:16px;margin:0 0 3px;}
+  .point-list p{margin:0;font-size:14.5px;color:var(--slate);}
+
+  /* booking demo */
+  .booking{display:flex;flex-direction:column;gap:14px;}
+  .booking .room-head{display:flex;justify-content:space-between;align-items:flex-start;}
+  .booking .room-head h4{font-family:var(--font-ui);font-weight:700;font-size:17px;margin:0;}
+  .booking .room-head .sub{font-size:12.5px;color:var(--slate);margin-top:3px;}
+  .pill-free{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--green);
+    background:var(--green-fill);border:1px solid var(--green-line);padding:4px 10px;border-radius:var(--radius-pill);display:inline-flex;align-items:center;gap:6px;}
+  .pill-free i{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;}
+  .slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .slot{font-family:var(--font-mono);font-size:11.5px;text-align:center;padding:9px 4px;border-radius:8px;border:1px solid var(--line);
+    background:#fff;cursor:pointer;color:var(--ink);transition:all .15s ease;}
+  .slot:hover{border-color:var(--kai-chip-line);}
+  .slot.taken{background:#F6F7F8;color:var(--neutral-bar);cursor:not-allowed;text-decoration:line-through;}
+  .slot.sel{background:var(--kai-signal);border-color:var(--kai-signal);color:#fff;}
+  .book-form{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px;}
+  .book-form input{font-family:var(--font-body);font-size:13px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);width:100%;}
+  .book-form input:focus{outline:none;border-color:var(--kai-signal);box-shadow:0 0 0 3px rgba(30,112,255,.12);}
+  .book-row{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .book-row .remain{font-size:12.5px;color:var(--slate);}
+  .book-row .remain b{color:var(--kai-signal);font-family:var(--font-ui);font-weight:700;}
+  .confirm{display:none;align-items:center;gap:10px;background:var(--green-fill);border:1px solid var(--green-line);border-radius:10px;padding:12px 14px;}
+  .confirm.show{display:flex;animation:fadeUp .4s ease;}
+  .confirm .check{width:22px;height:22px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .confirm .check svg{width:12px;height:12px;}
+  .confirm .txt{font-size:13px;}
+  .confirm .txt b{font-family:var(--font-ui);font-weight:600;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  /* admin calendar */
+  .cal{display:flex;flex-direction:column;gap:3px;}
+  .cal-top{display:grid;grid-template-columns:48px repeat(5,1fr);gap:3px;margin-bottom:3px;}
+  .cal-top div{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);text-align:center;padding:4px 0;}
+  .cal-row{display:grid;grid-template-columns:48px repeat(5,1fr);gap:3px;}
+  .cal-row .t{font-family:var(--font-mono);font-size:10px;color:var(--slate);display:flex;align-items:center;}
+  .cell{height:30px;border-radius:5px;background:#F3F5F7;border:1px solid var(--line);position:relative;}
+  .cell.l1{background:#E1EBFF;border-color:#D0E0FF;}
+  .cell.l2{background:#9FBEFF;border-color:#8CB0FF;}
+  .cell.l3{background:var(--kai-signal);border-color:var(--kai-signal);}
+  .cell.empty{background:#FAFAFA;border-style:dashed;}
+  .cal-legend{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
+  .cal-legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--slate);}
+  .cal-legend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line);}
+
+  .admin-note{margin-top:22px;background:var(--ink);border-radius:12px;padding:20px 22px;color:var(--warm-white);display:flex;gap:16px;align-items:center;}
+  .admin-note .toggle{flex-shrink:0;width:46px;height:26px;border-radius:999px;background:var(--kai-signal);position:relative;}
+  .admin-note .toggle::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;}
+  .admin-note .txt{font-size:14px;line-height:1.5;}
+  .admin-note .txt b{font-family:var(--font-ui);font-weight:600;color:#fff;}
+  .admin-note .state{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7FE3A6;margin-left:6px;}
+
+  /* ---------- FAQ ---------- */
+  .faq{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .faq-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .qa{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;}
+  .qa button{width:100%;text-align:left;background:none;border:0;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;
+    font-family:var(--font-ui);font-weight:600;font-size:15px;color:var(--ink);}
+  .qa .plus{flex-shrink:0;width:20px;height:20px;position:relative;transition:transform .25s ease;}
+  .qa .plus::before,.qa .plus::after{content:"";position:absolute;background:var(--kai-signal);border-radius:2px;}
+  .qa .plus::before{left:0;top:9px;width:20px;height:2px;}
+  .qa .plus::after{top:0;left:9px;width:2px;height:20px;transition:opacity .2s ease;}
+  .qa.open .plus{transform:rotate(90deg);}
+  .qa.open .plus::after{opacity:0;}
+  .qa .ans{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .qa .ans p{margin:0;padding:0 20px 18px;font-size:14px;color:var(--slate);line-height:1.6;}
+
+  /* ---------- CTA + FOOTER ---------- */
+  .cta{padding:84px 0;text-align:center;
+    background:radial-gradient(circle at 50% 0%, rgba(30,112,255,.08), transparent 60%), var(--mist);}
+  .cta h2{font-weight:800;font-size:clamp(28px,3.6vw,42px);letter-spacing:-0.025em;margin:16px 0 14px;text-wrap:balance;}
+  .cta p{font-size:17px;color:var(--slate);max-width:52ch;margin:0 auto 28px;}
+  .cta .hero-actions{justify-content:center;}
+  footer{background:var(--ink);color:var(--warm-white);padding:48px 0 34px;}
+  .foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start;}
+  footer .logo{font-family:var(--font-ui);font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;}
+  footer .logo b{color:var(--ken42-blue);}
+  footer .tag{font-size:13px;color:#93A0B5;margin-top:8px;max-width:30ch;}
+  .foot-links{display:flex;gap:46px;flex-wrap:wrap;}
+  .foot-col h5{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7684A0;margin:0 0 12px;font-weight:500;}
+  .foot-col a{display:block;font-size:13.5px;color:#C4CCDA;margin-bottom:9px;}
+  .foot-col a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid #2E3852;margin-top:34px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:#7684A0;}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:38px;}
+    .split{grid-template-columns:1fr;gap:34px;}
+    .split.rev .copy{order:0;}
+    .faq-list{grid-template-columns:1fr;}
+  }
+  @media(max-width:560px){
+    .slot-grid{grid-template-columns:repeat(3,1fr);}
+    section{padding:52px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="logo">ken<b>42</b></span></a>
+    <nav class="nav-links">
+      <a href="#">Clubs &amp; Societies</a>
+      <a href="#">Careers</a>
+      <a href="#">Events</a>
+      <a href="#top" class="active">Venue Bookings</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#faq" class="btn btn-ghost">Questions</a>
+      <a href="#demo" class="btn btn-primary">Book a demo</a>
+      <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="copy">
+      <span class="eyebrow"><span class="dot"></span>KEN42 · VENUE BOOKINGS</span>
+      <h1>Discover &amp; reserve campus spaces instantly.</h1>
+      <p class="lede-serif">One list for every space on campus.</p>
+      <p class="standfirst">From sports facilities to academic halls, locate and secure the perfect venue to match your needs.</p>
+      <ul class="feature-list">
+        <li>
+          <span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#1E70FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><b>Comprehensive inventory.</b> Access courts, gyms, meeting rooms, classrooms and auditoriums.</span>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#1E70FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><b>Flexible search.</b> Explore and filter options by your desired location, timing and capacity.</span>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="#1E70FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span><b>Frictionless booking.</b> Reserve campus venues directly, without multiple approvals.</span>
+        </li>
+      </ul>
+      <div class="hero-actions">
+        <a href="#demo" class="btn btn-primary">Book a demo →</a>
+        <a href="#who" class="btn btn-ghost">See how it works</a>
+      </div>
+    </div>
+
+    <!-- VISUAL 1: the single list of spaces with live filters -->
+    <div class="frame" aria-hidden="false">
+      <div class="frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="frame-url"><span class="lock">🔒</span>ken42.edu/venues</div>
+      </div>
+      <div class="frame-body">
+        <div class="filters" id="filters">
+          <button class="filter on" data-cat="all">All <span class="count" data-n>14</span></button>
+          <button class="filter" data-cat="sports">Sports <span class="count" data-n>5</span></button>
+          <button class="filter" data-cat="fitness">Fitness <span class="count" data-n>3</span></button>
+          <button class="filter" data-cat="rooms">Rooms <span class="count" data-n>6</span></button>
+        </div>
+        <div class="space-list" id="spaceList"><!-- filled by JS --></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO CAN BOOK ============ -->
+<a id="who"></a>
+<section>
+  <div class="wrap">
+    <div class="split rev">
+      <!-- VISUAL 2: interactive booking — the count ticks down -->
+      <div class="frame">
+        <div class="frame-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="frame-url"><span class="lock">🔒</span>ken42.edu/venues/room-301</div>
+        </div>
+        <div class="frame-body">
+          <div class="booking">
+            <div class="room-head">
+              <div>
+                <h4>Seminar Classroom · Room 301</h4>
+                <div class="sub">Academic Block B · Holds 40 · Open 8 AM – 8 PM</div>
+              </div>
+              <span class="pill-free"><i></i>Non-paid</span>
+            </div>
+            <div class="slot-grid" id="slotGrid"><!-- filled by JS --></div>
+            <div class="book-form">
+              <input type="text" id="purpose" placeholder="What is the room for? (e.g. Robotics club review)" value="Robotics club review">
+              <input type="text" id="attendees" placeholder="Add attendees…" value="A. Mehta, R. Singh">
+              <div class="book-row">
+                <div class="remain">Slots left today: <b id="remain">12</b></div>
+                <button class="btn btn-primary" id="confirmBtn">Confirm booking</button>
+              </div>
+              <div class="confirm" id="confirmMsg">
+                <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.3L4.8 8.6L9.5 3.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="txt"><b>Confirmed — 5–6 PM, Room 301.</b> It's under your bookings, and the slot count just dropped.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="copy">
+        <span class="eyebrow"><span class="dot"></span>Who can book a space?</span>
+        <h2 style="font-weight:700;font-size:clamp(26px,3.3vw,36px);line-height:1.14;letter-spacing:-0.02em;margin:14px 0 14px;">Anyone within the campus community.</h2>
+        <p style="font-size:16px;color:var(--slate);margin:0 0 26px;">Students, faculty, alumni and visiting employers can reserve venues — for any type of event or activity.</p>
+        <ul class="point-list">
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#1E70FF" stroke-width="1.6"/><path d="M3.5 15c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <div><h3>Open access</h3><p>Spaces are open to everyone on campus for any type of event or activity.</p></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <div><h3>Configurable event requirements</h3><p>Request add-ons directly through the system — custom lighting, extended hours, catering, decorations and furniture setups.</p></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L9 11.3 5.3 13.3l.7-4.3-3.1-3 4.3-.6z" stroke="#1E70FF" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+            <div><h3>Instant confirmation</h3><p>For pre-approved, non-paid venues, choose your slot, state your purpose and get an on-the-spot confirmation.</p></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5v15M12.5 5c0-1.4-1.6-2.3-3.5-2.3S5.5 3.6 5.5 5s1.6 2.1 3.5 2.4 3.5 1 3.5 2.6-1.6 2.3-3.5 2.3S5.5 13.4 5.5 12" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <div><h3>Transparent pricing</h3><p>The system distinguishes paid from non-paid venues, showing real-time duration limits and charges before you finalise.</p></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADMIN / RULES ============ -->
+<section style="background:#FBFBFA;border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="split">
+      <div class="copy">
+        <span class="eyebrow"><span class="dot"></span>For whoever owns the estate</span>
+        <h2 style="font-weight:700;font-size:clamp(26px,3.3vw,36px);line-height:1.14;letter-spacing:-0.02em;margin:14px 0 14px;">Bookings you set the rules for.</h2>
+        <p style="font-size:16px;color:var(--slate);margin:0 0 26px;">Decide once who can book what, and on what terms.</p>
+        <ul class="point-list">
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="2" stroke="#1E70FF" stroke-width="1.5"/><path d="M6.5 9l1.6 1.6L12 6.8" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><h3>Equipment mapped</h3><p>Assets tagged to the room they belong to.</p></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><rect x="2.5" y="4" width="13" height="11" rx="2" stroke="#1E70FF" stroke-width="1.5"/><path d="M2.5 7.5h13M6 2.5v3M12 2.5v3" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <div><h3>One admin calendar</h3><p>The whole estate on a single view.</p></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M2.5 14V9M7 14V5M11.5 14V7M16 14V3" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <div><h3>Faculty / coordinator overview</h3><p>A dedicated dashboard for department heads to monitor space utilisation and schedule departmental events.</p></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- VISUAL 3: admin calendar heatmap -->
+      <div>
+        <div class="frame">
+          <div class="frame-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="frame-url"><span class="lock">🔒</span>ken42.edu/admin/calendar</div>
+          </div>
+          <div class="frame-body">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
+              <div style="font-family:var(--font-ui);font-weight:600;font-size:14px;">Estate · this week</div>
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--slate);">18 blocks · 46 rooms</div>
+            </div>
+            <div class="cal" id="cal"><!-- filled by JS --></div>
+            <div class="cal-legend">
+              <span><i style="background:#F3F5F7"></i>Free</span>
+              <span><i style="background:#E1EBFF"></i>Light</span>
+              <span><i style="background:#9FBEFF"></i>Busy</span>
+              <span><i style="background:#1E70FF"></i>Peak</span>
+              <span><i style="background:#FAFAFA;border-style:dashed"></i>Unclaimed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- student-access control note -->
+        <div class="admin-note">
+          <div class="toggle" role="img" aria-label="Student booking enabled"></div>
+          <div class="txt"><b>Student booking is a control you own.</b> Turn self-service booking on for students<span class="state">● On</span> — or off entirely — for the spaces you choose.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<a id="faq"></a>
+<section class="faq">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:34px;">
+      <span class="eyebrow"><span class="dot"></span>Questions</span>
+      <h2>The things institutions ask first.</h2>
+    </div>
+    <div class="faq-list" id="faqList"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<a id="demo"></a>
+<section class="cta">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Ken42 Venue Bookings</span>
+    <h2>Put the whole estate on one list.</h2>
+    <p>See how your campus can discover, book and manage every space from a single view — with the rules you set.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Book a demo →</a>
+      <a href="#top" class="btn btn-ghost">Back to top</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo">ken<b>42</b></div>
+        <div class="tag">The operating system for higher education — across the learner lifecycle.</div>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h5>Campus</h5>
+          <a href="#">Clubs &amp; Societies</a>
+          <a href="#">Careers</a>
+          <a href="#">Events</a>
+          <a href="#top">Venue Bookings</a>
+        </div>
+        <div class="foot-col">
+          <h5>Platform</h5>
+          <a href="#">KAI by Ken42</a>
+          <a href="#">Solutions</a>
+          <a href="#">Security</a>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <a href="#">About</a>
+          <a href="#demo">Book a demo</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Ken42 · Live across 20+ institutions</div>
+      <div>Venue Bookings</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- DATA ---------- */
+  var spaces = [
+    {cat:"sports",  name:"Basketball Court A",  block:"Sports Complex",  cap:30,  hours:"6 AM – 10 PM", slots:7,  icon:"ball"},
+    {cat:"sports",  name:"Indoor Badminton 1",  block:"Sports Complex",  cap:8,   hours:"6 AM – 10 PM", slots:4,  icon:"ball"},
+    {cat:"sports",  name:"Football Ground",     block:"North Field",     cap:50,  hours:"5 AM – 9 PM",  slots:3,  icon:"ball"},
+    {cat:"sports",  name:"Tennis Court 2",      block:"Sports Complex",  cap:4,   hours:"6 AM – 9 PM",  slots:6,  icon:"ball"},
+    {cat:"sports",  name:"Cricket Nets",        block:"North Field",     cap:12,  hours:"6 AM – 8 PM",  slots:5,  icon:"ball"},
+    {cat:"fitness", name:"Strength Gym",        block:"Wellness Centre", cap:25,  hours:"5 AM – 11 PM", slots:9,  icon:"gym"},
+    {cat:"fitness", name:"Yoga Studio",         block:"Wellness Centre", cap:20,  hours:"6 AM – 9 PM",  slots:5,  icon:"gym"},
+    {cat:"fitness", name:"Cardio Hall",         block:"Wellness Centre", cap:18,  hours:"5 AM – 11 PM", slots:8,  icon:"gym"},
+    {cat:"rooms",   name:"Seminar Room 301",    block:"Academic Block B",cap:40,  hours:"8 AM – 8 PM",  slots:12, icon:"room"},
+    {cat:"rooms",   name:"Lecture Hall 1",      block:"Academic Block A",cap:120, hours:"8 AM – 9 PM",  slots:6,  icon:"room"},
+    {cat:"rooms",   name:"Meeting Room 2B",     block:"Admin Building",  cap:10,  hours:"9 AM – 7 PM",  slots:4,  icon:"room"},
+    {cat:"rooms",   name:"Design Studio",       block:"Academic Block C",cap:28,  hours:"8 AM – 10 PM", slots:7,  icon:"room"},
+    {cat:"rooms",   name:"Main Auditorium",     block:"Central Block",   cap:450, hours:"9 AM – 10 PM", slots:2,  icon:"room"},
+    {cat:"rooms",   name:"Collab Lab",          block:"Library",         cap:16,  hours:"8 AM – 11 PM", slots:10, icon:"room"}
+  ];
+
+  var icons = {
+    ball:'<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="#fff" stroke-width="1.5"/><path d="M3 10h14M10 3v14M5 5c2 2 8 2 10 0M5 15c2-2 8-2 10 0" stroke="#fff" stroke-width="1.2"/></svg>',
+    gym:'<svg viewBox="0 0 20 20" fill="none"><path d="M4 7v6M16 7v6M6 6v8M14 6v8M6 10h8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    room:'<svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4" width="13" height="12" rx="1.5" stroke="#fff" stroke-width="1.5"/><path d="M3.5 8h13M7 4v12" stroke="#fff" stroke-width="1.3"/></svg>'
+  };
+
+  /* ---------- SPACE LIST + FILTERS ---------- */
+  var listEl = document.getElementById('spaceList');
+  var filterEls = document.querySelectorAll('.filter');
+
+  function render(cat){
+    listEl.innerHTML = "";
+    spaces.filter(function(s){ return cat === "all" || s.cat === cat; })
+      .forEach(function(s){
+        var el = document.createElement('div');
+        el.className = "space";
+        el.innerHTML =
+          '<div class="thumb">'+icons[s.icon]+'</div>'+
+          '<div><div class="name">'+s.name+'</div>'+
+          '<div class="meta"><b>'+s.block+'</b> · Holds '+s.cap+' · '+s.hours+'</div></div>'+
+          '<div class="slots"><div class="n">'+s.slots+'</div><div class="lbl">slots left</div></div>';
+        listEl.appendChild(el);
+      });
+  }
+
+  filterEls.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterEls.forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      render(btn.getAttribute('data-cat'));
+    });
+  });
+  render("all");
+
+  /* ---------- BOOKING DEMO (count ticks down) ---------- */
+  var grid = document.getElementById('slotGrid');
+  var slotTimes = ["08–09","09–10","10–11","11–12","12–13","13–14","14–15","15–16","16–17","17–18","18–19","19–20"];
+  var taken = {2:true, 6:true}; // a couple already taken (shown struck through); 12 free as per copy
+  var selected = null;
+  var remaining = 12;
+  var booked = false;
+
+  slotTimes.forEach(function(t, i){
+    var s = document.createElement('div');
+    s.className = "slot" + (taken[i] ? " taken" : "");
+    s.textContent = t;
+    if(!taken[i]){
+      s.addEventListener('click', function(){
+        if(booked) return;
+        document.querySelectorAll('.slot.sel').forEach(function(x){ x.classList.remove('sel'); });
+        s.classList.add('sel');
+        selected = t;
+      });
+    }
+    grid.appendChild(s);
+    // preselect 17-18 (5-6 PM) to match the copy's story
+    if(t === "17–18"){ s.classList.add('sel'); selected = t; }
+  });
+
+  var confirmBtn = document.getElementById('confirmBtn');
+  var confirmMsg = document.getElementById('confirmMsg');
+  var remainEl = document.getElementById('remain');
+
+  confirmBtn.addEventListener('click', function(){
+    if(booked){ reset(); return; }
+    if(!selected) return;
+    booked = true;
+    remaining = 11;
+    remainEl.textContent = remaining;
+    confirmMsg.classList.add('show');
+    confirmBtn.textContent = "Book another";
+  });
+
+  function reset(){
+    booked = false;
+    remaining = 12;
+    remainEl.textContent = remaining;
+    confirmMsg.classList.remove('show');
+    confirmBtn.textContent = "Confirm booking";
+  }
+
+  /* ---------- ADMIN CALENDAR HEATMAP ---------- */
+  var cal = document.getElementById('cal');
+  var days = ["Mon","Tue","Wed","Thu","Fri"];
+  var rows = ["9AM","11AM","1PM","3PM","5PM","7PM"];
+  // utilisation levels 0=free 1=light 2=busy 3=peak -1=unclaimed
+  var heat = [
+    [1,2,1,3,0],
+    [2,3,2,3,1],
+    [3,3,1,2,2],
+    [1,2,3,3,1],
+    [2,3,3,2,-1],
+    [0,1,2,1,-1]
+  ];
+  var top = document.createElement('div');
+  top.className = "cal-top";
+  top.innerHTML = "<div></div>" + days.map(function(d){ return "<div>"+d+"</div>"; }).join("");
+  cal.appendChild(top);
+  rows.forEach(function(r, ri){
+    var row = document.createElement('div');
+    row.className = "cal-row";
+    var html = '<div class="t">'+r+'</div>';
+    heat[ri].forEach(function(v){
+      var cls = v === -1 ? "empty" : (v === 0 ? "" : "l"+v);
+      html += '<div class="cell '+cls+'"></div>';
+    });
+    row.innerHTML = html;
+    cal.appendChild(row);
+  });
+
+  /* ---------- FAQ ---------- */
+  var faqs = [
+    ["Can students book spaces themselves?","For the spaces the institution opens to them, yes. Everything else still routes through approval."],
+    ["Can people outside the institution book a venue?","Yes. Guest, non-member, member and startup bookings each carry their own eligibility and pricing."],
+    ["Can we charge for a booking?","Yes. Pricing sits on the venue, payment is taken at the point of booking and a receipt is generated automatically."],
+    ["What stops two bookings landing on the same room?","Conflict checks run against the timetable and existing bookings before a booking is confirmed."],
+    ["Can a booking be moved or cancelled?","Yes. Cancellation and rescheduling policies are set by the institution, and administrators can cancel directly."],
+    ["What reporting comes out of it?","Booking frequency, the slots that fill first, revenue where spaces are charged for, and who is doing the booking."]
+  ];
+  var faqList = document.getElementById('faqList');
+  faqs.forEach(function(qa){
+    var item = document.createElement('div');
+    item.className = "qa";
+    item.innerHTML =
+      '<button type="button"><span>'+qa[0]+'</span><span class="plus"></span></button>'+
+      '<div class="ans"><p>'+qa[1]+'</p></div>';
+    var btn = item.querySelector('button');
+    var ans = item.querySelector('.ans');
+    btn.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.qa.open').forEach(function(o){
+        o.classList.remove('open'); o.querySelector('.ans').style.maxHeight = null;
+      });
+      if(!isOpen){ item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + "px"; }
+    });
+    faqList.appendChild(item);
+  });
+
+  /* ---------- MOBILE NAV (simple) ---------- */
+  var toggle = document.querySelector('.nav-toggle');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      var links = document.querySelector('.nav-links');
+      if(!links) return;
+      var open = links.style.display === "flex";
+      links.style.display = open ? "none" : "flex";
+      links.style.position = "absolute";
+      links.style.flexDirection = "column";
+      links.style.top = "66px"; links.style.left = "0"; links.style.right = "0";
+      links.style.background = "var(--mist)";
+      links.style.padding = "16px 24px";
+      links.style.borderBottom = "1px solid var(--line)";
+      links.style.gap = "16px";
+    });
+  }
+})();
+</script>
+</body>
+</html>
