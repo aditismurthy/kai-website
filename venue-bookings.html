@@ -258,6 +258,12 @@
 
   /* who-can-book layout + side-by-side stages */
   .who-top{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-bottom:48px;}
+  .who-top .eyebrow{font-family:var(--font-ui);font-weight:800;font-size:clamp(18px,2vw,24px);letter-spacing:0.14em;
+    background:linear-gradient(90deg,#0B3B9C 0%, #A7B2C4 50%, #1E70FF 100%);
+    background-size:220% auto;background-position:left center;
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+    transition:background-position .6s ease;cursor:default;}
+  .who-top .eyebrow:hover{background-position:right center;}
   .point-list.who-points{display:grid;grid-template-columns:1fr 1fr;gap:24px 28px;}
   .point-list.who-points .ic{display:none;}
   .stages{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;}
