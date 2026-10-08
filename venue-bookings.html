@@ -400,14 +400,7 @@
     <div class="hero-split">
       <!-- LEFT: horizontal accordion of spaces -->
       <div class="hero-visual">
-        <div class="filters" id="filters">
-          <button class="filter on" data-cat="all">All <span class="count">14</span></button>
-          <button class="filter" data-cat="sports">Sports <span class="count">5</span></button>
-          <button class="filter" data-cat="fitness">Fitness <span class="count">3</span></button>
-          <button class="filter" data-cat="rooms">Rooms <span class="count">6</span></button>
-        </div>
         <div class="accordion" id="accordion"></div>
-        <a class="view-all" href="#">View all 14 spaces →</a>
       </div>
 
       <!-- RIGHT: the three points -->
@@ -649,7 +642,6 @@
   };
 
   var accEl = document.getElementById('accordion');
-  var filterEls = document.querySelectorAll('.filter');
   var MAX_PANELS = 4;
   function catLabel(c){ return c === 'sports' ? 'Sports' : c === 'fitness' ? 'Fitness' : 'Room'; }
   function render(cat){
@@ -676,13 +668,6 @@
       accEl.appendChild(el);
     });
   }
-  filterEls.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      filterEls.forEach(function(b){ b.classList.remove('on'); });
-      btn.classList.add('on');
-      render(btn.getAttribute('data-cat'));
-    });
-  });
   render("all");
 
   /* glass before/after cards are static, side by side (no JS) */
