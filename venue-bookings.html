@@ -638,23 +638,31 @@
   var icons = {
     ball:'<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="#fff" stroke-width="1.5"/><path d="M3 10h14M10 3v14M5 5c2 2 8 2 10 0M5 15c2-2 8-2 10 0" stroke="#fff" stroke-width="1.2"/></svg>',
     gym:'<svg viewBox="0 0 20 20" fill="none"><path d="M4 7v6M16 7v6M6 6v8M14 6v8M6 10h8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>',
-    room:'<svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4" width="13" height="12" rx="1.5" stroke="#fff" stroke-width="1.5"/><path d="M3.5 8h13M7 4v12" stroke="#fff" stroke-width="1.3"/></svg>'
+    room:'<svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4" width="13" height="12" rx="1.5" stroke="#fff" stroke-width="1.5"/><path d="M3.5 8h13M7 4v12" stroke="#fff" stroke-width="1.3"/></svg>',
+    audi:'<svg viewBox="0 0 20 20" fill="none"><path d="M3 4h14v7H3z" stroke="#fff" stroke-width="1.4"/><path d="M4 15c1.6-1.4 10.4-1.4 12 0" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M7 15v2M13 15v2" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>',
+    music:'<svg viewBox="0 0 20 20" fill="none"><path d="M8 15V5l8-1.6V13" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="15" r="2.1" stroke="#fff" stroke-width="1.5"/><circle cx="14" cy="13" r="2.1" stroke="#fff" stroke-width="1.5"/></svg>',
+    lab:'<svg viewBox="0 0 20 20" fill="none"><path d="M8 3v5L4.5 14.5A1.5 1.5 0 0 0 5.8 17h8.4a1.5 1.5 0 0 0 1.3-2.5L12 8V3" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3h6M7.5 12h5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>'
   };
 
+  // curated mix shown in the hero accordion
+  var featured = [
+    {name:"Basketball Court A", block:"Sports Complex",  cap:30,  hours:"6 AM to 10 PM", slots:7, icon:"ball",  tag:"Sports"},
+    {name:"Main Auditorium",    block:"Central Block",   cap:450, hours:"9 AM to 10 PM", slots:2, icon:"audi",  tag:"Auditorium"},
+    {name:"Music Room",         block:"Arts Centre",     cap:15,  hours:"8 AM to 9 PM",  slots:5, icon:"music", tag:"Music"},
+    {name:"Innovation Lab",     block:"Science Block",   cap:24,  hours:"8 AM to 11 PM", slots:8, icon:"lab",   tag:"Lab"}
+  ];
+
   var accEl = document.getElementById('accordion');
-  var MAX_PANELS = 4;
-  function catLabel(c){ return c === 'sports' ? 'Sports' : c === 'fitness' ? 'Fitness' : 'Room'; }
-  function render(cat){
+  function render(){
     accEl.innerHTML = "";
-    var shown = spaces.filter(function(s){ return cat === "all" || s.cat === cat; }).slice(0, MAX_PANELS);
-    shown.forEach(function(s, i){
-      var hours = s.hours.replace(' – ', ' to ');
+    featured.forEach(function(s, i){
+      var hours = s.hours;
       var el = document.createElement('div');
       el.className = "apanel" + (i === 0 ? " active" : "");
       el.innerHTML =
         '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
         '<div class="detail">'+
-          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+catLabel(s.cat)+'</div></div>'+
+          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+s.tag+'</div></div>'+
           '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div></div>'+
           '<div class="d-foot"><div class="dslots"><span class="n">'+s.slots+'</span><span class="l">slots left today</span></div><a class="book" href="#">Book this space</a></div>'+
         '</div>';
@@ -668,7 +676,7 @@
       accEl.appendChild(el);
     });
   }
-  render("all");
+  render();
 
   /* glass before/after cards are static, side by side (no JS) */
 
