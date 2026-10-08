@@ -264,13 +264,25 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
     transition:background-position .6s ease;cursor:default;}
   .who-top .eyebrow:hover{background-position:right center;}
-  .point-list.who-points{display:grid;grid-template-columns:1fr 1fr;gap:24px 28px;}
+  .who-top .copy h2 .serif{color:var(--ink);}
+  .point-list.who-points{display:flex;flex-direction:column;gap:0;}
   .point-list.who-points .ic{display:none;}
+  .point-list.who-points li{display:block;padding:22px 0;border-top:1px solid var(--line);}
+  .point-list.who-points li:last-child{border-bottom:1px solid var(--line);}
   .stages{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;}
   .stage-col{display:flex;flex-direction:column;}
   .stage-col .glass-stage{flex:1;display:flex;flex-direction:column;}
   .stage-col .flip-face{flex:1;}
-  .stage-label{display:inline-block;margin-bottom:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--kai-signal);background:var(--kai-tint);border:1px solid var(--kai-chip-line);padding:7px 14px;border-radius:var(--radius-pill);}
+  .stage-label{display:inline-block;margin-bottom:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--kai-signal);background:var(--kai-tint);border:1px solid var(--kai-chip-line);padding:7px 14px;border-radius:var(--radius-pill);
+    opacity:0;transform:translateY(6px);transition:opacity .6s ease .2s, transform .6s ease .2s;}
+  .stage-col.revealed .stage-label{opacity:1;transform:none;}
+  /* navy/grey panel covering the card until scrolled into view */
+  .stage-cover{position:absolute;inset:0;z-index:6;border-radius:22px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;
+    background:linear-gradient(155deg,#2B3650 0%, #141C2E 100%);
+    color:#D6DEEC;font-family:var(--font-mono);font-size:clamp(15px,1.8vw,21px);letter-spacing:.16em;text-transform:uppercase;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.4,0,.2,1);}
+  .stage-col.revealed .stage-cover{opacity:0;transform:translateY(-18px);pointer-events:none;}
   @media(max-width:900px){.who-top{grid-template-columns:1fr;gap:28px;}.point-list.who-points{grid-template-columns:1fr;}.stages{grid-template-columns:1fr;gap:34px;}}
 
   /* ---------- GLASS CARD ---------- */
@@ -457,6 +469,7 @@
       <div class="stage-col">
         <div class="stage-label">Before the booking</div>
         <div class="glass-stage">
+          <div class="stage-cover"><span>Before the booking</span></div>
           <div class="flip-face">
             <div class="g-head">
               <div>
@@ -486,6 +499,7 @@
       <div class="stage-col">
         <div class="stage-label">After the booking</div>
         <div class="glass-stage">
+          <div class="stage-cover"><span>After the booking</span></div>
           <div class="flip-face">
             <div class="g-head">
               <div>
@@ -684,7 +698,22 @@
   }
   render();
 
-  /* glass before/after cards are static, side by side (no JS) */
+  /* before/after cards: navy cover panel lifts into a heading on scroll */
+  (function revealStages(){
+    var cols = document.querySelectorAll('.stage-col');
+    if(!cols.length) return;
+    var reduceR = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceR || !('IntersectionObserver' in window)){
+      cols.forEach(function(c){ c.classList.add('revealed'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.35});
+    cols.forEach(function(c){ io.observe(c); });
+  })();
 
   /* admin calendar */
   var cal = document.getElementById('cal');
