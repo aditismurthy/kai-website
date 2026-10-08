@@ -80,6 +80,8 @@
       radial-gradient(700px 500px at 10% 110%, rgba(15,168,214,.14), transparent 55%),
       linear-gradient(160deg, var(--ink-2) 0%, var(--ink-deep) 100%);
   }
+  #heroParticles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .hero .nav, .hero .hero-inner{position:relative;z-index:2;}
   .hero-inner{padding:132px 0 56px;}
   .hero h1{font-weight:800;font-size:clamp(34px,5vw,56px);line-height:1.04;letter-spacing:-0.03em;margin:20px 0 18px;max-width:17ch;text-wrap:balance;color:#fff;}
   .hero h1 .serif{color:#8FC4FF;}
@@ -103,7 +105,15 @@
   .frame-url .lock{opacity:.5;font-size:10px;}
   .frame-url .live{margin-left:auto;color:var(--green);display:flex;align-items:center;gap:5px;}
   .frame-url .live i{width:5px;height:5px;border-radius:50%;background:var(--green);}
-  .frame-body{padding:18px;}
+  .frame-body{padding:18px;color:var(--ink);}
+
+  /* card header inside the venues frame */
+  .list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+  .list-head .title{font-family:var(--font-ui);font-weight:700;font-size:15px;color:var(--ink);}
+  .list-head .title b{color:var(--kai-signal);}
+  .list-search{display:flex;align-items:center;gap:8px;background:#F4F6F8;border:1px solid var(--line);border-radius:var(--radius-pill);padding:7px 14px;color:var(--slate);font-size:12.5px;min-width:180px;}
+  .list-search svg{width:14px;height:14px;flex-shrink:0;}
+  @media(max-width:560px){.list-search{display:none;}}
 
   .filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
   .filters::-webkit-scrollbar{display:none;}
@@ -115,7 +125,7 @@
   .space:hover{border-color:var(--kai-chip-line);box-shadow:0 6px 18px -12px rgba(26,37,64,.3);}
   .space .thumb{width:40px;height:40px;border-radius:9px;background:var(--gradient-signal);display:flex;align-items:center;justify-content:center;color:#fff;}
   .space .thumb svg{width:19px;height:19px;}
-  .space .name{font-family:var(--font-ui);font-weight:600;font-size:14px;}
+  .space .name{font-family:var(--font-ui);font-weight:600;font-size:14px;color:var(--ink);}
   .space .meta{font-size:12px;color:var(--slate);margin-top:2px;}
   .space .meta b{color:var(--ink);font-weight:600;}
   .space .slots{text-align:right;}
@@ -205,6 +215,10 @@
   .punch .wrap{max-width:900px;text-align:center;}
   .punch h2{font-weight:800;font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-0.025em;color:#fff;margin:14px 0 0;text-wrap:balance;}
   .punch h2 .serif{color:#8FC4FF;}
+  .punch-stage{position:relative;}
+  .punch-stage.particles #punchText{opacity:0;position:absolute;inset:0;pointer-events:none;}
+  #punchCanvas{display:none;width:100%;height:150px;}
+  .punch-stage.particles #punchCanvas{display:block;}
 
   /* ---------- FAQ ---------- */
   .faq-list{max-width:820px;display:flex;flex-direction:column;gap:12px;}
@@ -256,6 +270,7 @@
 
 <!-- ============ HERO (dark, with nav on top) ============ -->
 <section class="hero">
+  <canvas id="heroParticles" aria-hidden="true"></canvas>
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="#top"><span class="logo">ken<b>42</b></span></a>
@@ -295,6 +310,13 @@
           <div class="frame-url"><span class="lock">🔒</span>ken42.edu/venues<span class="live"><i></i>LIVE</span></div>
         </div>
         <div class="frame-body">
+          <div class="list-head">
+            <div class="title">Every bookable space · <b id="shownCount">14</b></div>
+            <div class="list-search">
+              <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="#74818D" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#74818D" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Search spaces…
+            </div>
+          </div>
           <div class="filters" id="filters">
             <button class="filter on" data-cat="all">All <span class="count">14</span></button>
             <button class="filter" data-cat="sports">Sports <span class="count">5</span></button>
@@ -423,7 +445,10 @@
 <section class="punch">
   <div class="wrap">
     <span class="eyebrow on-dark" style="justify-content:center;"><span class="dot"></span>The whole estate, one place</span>
-    <h2>One list. One calendar. Every space, <span class="serif">every booking.</span></h2>
+    <div class="punch-stage">
+      <canvas id="punchCanvas" aria-hidden="true"></canvas>
+      <h2 id="punchText">One&nbsp;list. One&nbsp;calendar. <span class="serif">Every&nbsp;booking.</span></h2>
+    </div>
   </div>
 </section>
 
@@ -507,9 +532,12 @@
 
   var listEl = document.getElementById('spaceList');
   var filterEls = document.querySelectorAll('.filter');
+  var shownCount = document.getElementById('shownCount');
   function render(cat){
     listEl.innerHTML = "";
-    spaces.filter(function(s){ return cat === "all" || s.cat === cat; }).forEach(function(s){
+    var shown = spaces.filter(function(s){ return cat === "all" || s.cat === cat; });
+    if(shownCount) shownCount.textContent = shown.length;
+    shown.forEach(function(s){
       var el = document.createElement('div');
       el.className = "space";
       el.innerHTML =
@@ -600,6 +628,107 @@
     });
     faqList.appendChild(item);
   });
+
+  /* ---------- PARTICLE FIELD (hero backdrop) ---------- */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (function heroParticles(){
+    var cv = document.getElementById('heroParticles');
+    if(!cv || reduce) return;
+    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio||1, 2);
+    var w, h, pts = [];
+    function size(){
+      var r = cv.parentElement.getBoundingClientRect();
+      w = r.width; h = r.height;
+      cv.width = w*dpr; cv.height = h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n = Math.min(70, Math.round(w/22));
+      pts = [];
+      for(var i=0;i<n;i++) pts.push({x:Math.random()*w, y:Math.random()*h, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, r:Math.random()*1.6+0.6});
+    }
+    function tick(){
+      ctx.clearRect(0,0,w,h);
+      for(var i=0;i<pts.length;i++){
+        var p = pts[i];
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1;
+        if(p.y<0||p.y>h) p.vy*=-1;
+        for(var j=i+1;j<pts.length;j++){
+          var q = pts[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
+          if(d<120){
+            ctx.strokeStyle='rgba(64,180,255,'+(0.14*(1-d/120))+')';
+            ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle='rgba(120,190,255,0.55)';
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+    size(); tick();
+    window.addEventListener('resize', size);
+  })();
+
+  /* ---------- PARTICLE TEXT (punchline) ---------- */
+  (function punchParticles(){
+    var cv = document.getElementById('punchCanvas');
+    var stage = document.querySelector('.punch-stage');
+    if(!cv || !stage || reduce) return;
+    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio||1, 2);
+    var W, H, targets = [], parts = [], raf, started = false;
+    var line1 = "One list. One calendar.", line2 = "Every booking.";
+    function build(){
+      var r = cv.parentElement.getBoundingClientRect();
+      W = r.width; H = 150;
+      cv.width = W*dpr; cv.height = H*dpr; cv.style.height = H+"px";
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      // draw text offscreen-ish to sample pixels
+      ctx.clearRect(0,0,W,H);
+      var fs = Math.max(24, Math.min(54, W/13));
+      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#fff";
+      ctx.font="800 "+fs+"px Inter, sans-serif";
+      ctx.fillText(line1, W/2, H*0.36);
+      ctx.font="italic 400 "+fs+"px 'IBM Plex Serif', serif";
+      ctx.fillText(line2, W/2, H*0.72);
+      var img = ctx.getImageData(0,0,W*dpr,H*dpr).data;
+      ctx.clearRect(0,0,W,H);
+      targets = [];
+      var gap = 4;
+      for(var y=0;y<H;y+=gap){
+        for(var x=0;x<W;x+=gap){
+          var idx = ((Math.floor(y*dpr))*(W*dpr) + Math.floor(x*dpr))*4;
+          if(img[idx+3] > 128){
+            targets.push({x:x, y:y, blue: Math.random()<0.5});
+          }
+        }
+      }
+      parts = targets.map(function(t){
+        return {x:Math.random()*W, y:Math.random()*H, tx:t.x, ty:t.y, blue:t.blue};
+      });
+    }
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<parts.length;i++){
+        var p = parts[i];
+        p.x += (p.tx - p.x)*0.08;
+        p.y += (p.ty - p.y)*0.08;
+        ctx.fillStyle = p.blue ? 'rgba(143,196,255,0.95)' : 'rgba(255,255,255,0.92)';
+        ctx.fillRect(p.x, p.y, 1.8, 1.8);
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    function start(){
+      if(started) return; started = true;
+      stage.classList.add('particles');
+      build(); tick();
+    }
+    // kick off when scrolled into view
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ start(); io.disconnect(); } });
+      }, {threshold:0.4});
+      io.observe(stage);
+    } else { start(); }
+    window.addEventListener('resize', function(){ if(started){ cancelAnimationFrame(raf); build(); tick(); } });
+  })();
 
   /* mobile nav */
   var toggle = document.querySelector('.nav-toggle');
