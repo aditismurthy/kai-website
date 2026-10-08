@@ -93,21 +93,22 @@
   .feature-inline b{color:#fff;font-family:var(--font-ui);font-weight:600;}
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
 
-  /* hero split: accordion left, points right */
-  .hero-split{display:grid;grid-template-columns:1.55fr 1fr;gap:44px;align-items:start;margin-top:46px;}
+  /* hero: three points on top, accordion below */
+  .hero-split{display:flex;flex-direction:column;gap:34px;margin-top:40px;}
+  .hero-points{order:-1;}
   .hero-visual .filters{margin-bottom:14px;}
   .view-all{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-family:var(--font-ui);font-weight:600;font-size:13px;color:#8FC4FF;}
   .view-all:hover{color:#fff;}
-  .hero-points{padding-top:6px;}
-  .points-title{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5E6B85;margin:0 0 20px;}
-  .point-list.on-dark{gap:24px;}
+  .points-title{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5E6B85;margin:0 0 18px;}
+  .point-list.on-dark{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media(max-width:760px){.point-list.on-dark{grid-template-columns:1fr;gap:18px;}}
   .point-list.on-dark .ic{background:rgba(30,112,255,.16);border-color:rgba(30,112,255,.42);color:#8FC4FF;}
   .point-list.on-dark h3{color:#fff;}
   .point-list.on-dark p{color:#AEB9CC;}
 
   /* ---------- HORIZONTAL ACCORDION ---------- */
-  .accordion{display:flex;gap:12px;height:360px;width:100%;}
-  .apanel{position:relative;flex:1 1 0;min-width:60px;border-radius:16px;overflow:hidden;cursor:pointer;
+  .accordion{display:flex;gap:10px;height:300px;width:100%;}
+  .apanel{position:relative;flex:1 1 0;min-width:54px;border-radius:14px;overflow:hidden;cursor:pointer;
     background:linear-gradient(165deg,#2C7BFF 0%, #0F52CF 100%);
     box-shadow:0 22px 44px -26px rgba(0,0,0,.65);
     transition:flex-grow .55s cubic-bezier(.4,0,.2,1);}
@@ -118,7 +119,9 @@
   .spine .pic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#fff;}
   .spine .pic svg{width:20px;height:20px;}
   .spine .vname{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-ui);font-weight:600;font-size:14px;color:#fff;white-space:nowrap;letter-spacing:.01em;}
-  .spine .vslots{font-family:var(--font-ui);font-weight:800;font-size:18px;color:#fff;}
+  .spine .vslots{display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .spine .vslots .vn{font-family:var(--font-ui);font-weight:800;font-size:18px;color:#fff;line-height:1;}
+  .spine .vslots .vlbl{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#CFE2FF;line-height:1.15;text-align:center;}
   .apanel .detail{position:absolute;inset:0;z-index:2;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;min-width:280px;opacity:0;pointer-events:none;transition:opacity .4s ease .12s;}
   .apanel.active .detail{opacity:1;pointer-events:auto;}
   .detail .d-top{display:flex;align-items:flex-start;justify-content:space-between;}
@@ -248,6 +251,49 @@
   .admin-note .txt{font-size:14px;line-height:1.5;}
   .admin-note .txt b{font-family:var(--font-ui);font-weight:600;color:#fff;}
   .admin-note .state{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7FE3A6;margin-left:6px;}
+
+  /* ---------- GLASS FLIP CARD ---------- */
+  .glass-stage{position:relative;max-width:440px;border-radius:22px;padding:28px;overflow:hidden;
+    background:radial-gradient(130% 115% at 0% 0%, #2C7BFF 0%, #0B3B9C 72%);
+    box-shadow:0 34px 70px -30px rgba(11,59,156,.75);}
+  .glass-stage::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(64,197,235,.55),transparent 70%);top:-96px;right:-72px;pointer-events:none;}
+  .glass-stage::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%);bottom:-100px;left:-60px;pointer-events:none;}
+  .glass-chip{position:relative;z-index:2;display:inline-block;margin-bottom:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#CFE2FF;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);padding:5px 11px;border-radius:999px;}
+  .flip{position:relative;z-index:2;perspective:1600px;}
+  .flip-inner{position:relative;transition:transform .9s cubic-bezier(.4,.05,.2,1);transform-style:preserve-3d;}
+  .flip.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-face{border-radius:18px;padding:20px;color:#fff;background:rgba(255,255,255,.12);
+    -webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);
+    border:1px solid rgba(255,255,255,.28);
+    box-shadow:0 14px 40px -14px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.45);
+    -webkit-backface-visibility:hidden;backface-visibility:hidden;}
+  .flip-front{position:relative;}
+  .flip-back{position:absolute;inset:0;transform:rotateY(180deg);}
+  .g-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;}
+  .g-title{font-family:var(--font-ui);font-weight:700;font-size:17px;color:#fff;}
+  .g-sub{font-size:12px;color:#CFE2FF;margin-top:4px;}
+  .g-pill{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#CFF3DD;background:rgba(120,240,170,.16);border:1px solid rgba(120,240,170,.32);padding:5px 9px;border-radius:999px;white-space:nowrap;}
+  .g-badge{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;font-size:13px;color:#fff;flex-shrink:0;}
+  .g-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+  .g-slot{font-family:var(--font-mono);font-size:11px;text-align:center;padding:8px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EAF1FF;}
+  .g-slot.off{opacity:.4;text-decoration:line-through;}
+  .g-slot.sel{background:#fff;color:#1E70FF;border-color:#fff;font-weight:600;}
+  .g-field{font-size:13px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:9px 12px;margin-bottom:8px;}
+  .g-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;}
+  .g-remain{font-size:12px;color:#CFE2FF;}
+  .g-remain b{color:#fff;font-family:var(--font-ui);font-weight:700;font-size:15px;}
+  .g-btn{font-family:var(--font-ui);font-weight:600;font-size:13px;background:#fff;color:#1E70FF;border-radius:999px;padding:9px 16px;}
+  .g-booking{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:16px;}
+  .gb-top{display:flex;justify-content:space-between;align-items:center;}
+  .gb-name{font-family:var(--font-ui);font-weight:700;font-size:16px;color:#fff;}
+  .gb-check svg{width:16px;height:16px;}
+  .gb-date{font-size:12px;color:#CFE2FF;margin-top:4px;}
+  .gb-time{display:flex;align-items:center;gap:7px;font-size:13px;color:#fff;margin-top:10px;}
+  .gb-time svg{width:15px;height:15px;color:#CFE2FF;}
+  .gb-who{font-size:12.5px;color:#CFE2FF;margin-top:8px;}
+  .gb-cancel{font-family:var(--font-ui);font-weight:600;font-size:13px;color:#FFB4BA;margin-top:12px;}
+  .g-note{display:flex;gap:9px;align-items:flex-start;margin-top:14px;font-size:12px;color:#CFE2FF;line-height:1.5;}
+  .g-note svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;color:#8FC4FF;}
 
   /* dark punchline band */
   .punch{background:linear-gradient(160deg,var(--ink-2),var(--ink-deep));color:var(--warm-white);padding:80px 0;}
@@ -381,33 +427,59 @@
   <div class="wrap">
     <div class="split rev">
       <!-- VISUAL 2: interactive booking, the count ticks down -->
-      <div class="frame">
-        <div class="frame-bar">
-          <div class="dots"><span></span><span></span><span></span></div>
-          <div class="frame-url"><span class="lock">🔒</span>ken42.edu/venues/room-301</div>
-        </div>
-        <div class="frame-body">
-          <div class="booking">
-            <div class="room-head">
-              <div>
-                <h4>Seminar Classroom · Room 301</h4>
-                <div class="sub">Academic Block B · Holds 40 · Open 8 AM – 8 PM</div>
+      <!-- VISUAL 2: frosted-glass flip card (before / after booking) -->
+      <div class="glass-stage">
+        <div class="glass-chip">Before &amp; after</div>
+        <div class="flip" id="flipCard">
+          <div class="flip-inner">
+
+            <!-- FRONT: before booking -->
+            <div class="flip-face flip-front">
+              <div class="g-head">
+                <div>
+                  <div class="g-title">Seminar Room 301</div>
+                  <div class="g-sub">Academic Block B · Holds 40 · 8 AM to 8 PM</div>
+                </div>
+                <span class="g-pill">Non-paid</span>
               </div>
-              <span class="pill-free"><i></i>Non-paid</span>
+              <div class="g-slots">
+                <span class="g-slot">15:00</span>
+                <span class="g-slot off">16:00</span>
+                <span class="g-slot sel">17:00</span>
+                <span class="g-slot">18:00</span>
+                <span class="g-slot">19:00</span>
+                <span class="g-slot">20:00</span>
+              </div>
+              <div class="g-field">Robotics club review</div>
+              <div class="g-field">A. Mehta, R. Singh</div>
+              <div class="g-foot">
+                <div class="g-remain">Slots left today <b>12</b></div>
+                <span class="g-btn">Confirm booking</span>
+              </div>
             </div>
-            <div class="slot-grid" id="slotGrid"></div>
-            <div class="book-form">
-              <input type="text" id="purpose" placeholder="What is the room for?" value="Robotics club review">
-              <input type="text" id="attendees" placeholder="Add attendees…" value="A. Mehta, R. Singh">
-              <div class="book-row">
-                <div class="remain">Slots left today: <b id="remain">12</b></div>
-                <button class="btn btn-primary" id="confirmBtn">Confirm booking</button>
+
+            <!-- BACK: after booking -->
+            <div class="flip-face flip-back">
+              <div class="g-head">
+                <div>
+                  <div class="g-title">My bookings</div>
+                  <div class="g-sub">Your upcoming reservations</div>
+                </div>
+                <span class="g-badge">1</span>
               </div>
-              <div class="confirm" id="confirmMsg">
-                <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.3L4.8 8.6L9.5 3.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <span class="txt"><b>Confirmed for 5 to 6 PM, Room 301.</b> It's under your bookings, and the slot count just dropped.</span>
+              <div class="g-booking">
+                <div class="gb-top">
+                  <div class="gb-name">Seminar Room 301</div>
+                  <span class="gb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7.3L5.6 9.9 11 4" stroke="#8FF0B6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+                <div class="gb-date">8 Oct 2026</div>
+                <div class="gb-time"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3l2 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>5:00 PM to 6:00 PM</div>
+                <div class="gb-who">A. Mehta, R. Singh</div>
+                <div class="gb-cancel">Cancel booking</div>
               </div>
+              <div class="g-note"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.3" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.2v3.4M8 5.1v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Please arrive on time. Cancel early if your plans change so another student can use the slot.</span></div>
             </div>
+
           </div>
         </div>
       </div>
@@ -564,7 +636,7 @@
 
   var accEl = document.getElementById('accordion');
   var filterEls = document.querySelectorAll('.filter');
-  var MAX_PANELS = 6;
+  var MAX_PANELS = 4;
   function catLabel(c){ return c === 'sports' ? 'Sports' : c === 'fitness' ? 'Fitness' : 'Room'; }
   function render(cat){
     accEl.innerHTML = "";
@@ -574,7 +646,7 @@
       var el = document.createElement('div');
       el.className = "apanel" + (i === 0 ? " active" : "");
       el.innerHTML =
-        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots">'+s.slots+'</div></div>'+
+        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
         '<div class="detail">'+
           '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+catLabel(s.cat)+'</div></div>'+
           '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div></div>'+
@@ -599,34 +671,14 @@
   });
   render("all");
 
-  /* booking demo */
-  var grid = document.getElementById('slotGrid');
-  var slotTimes = ["08–09","09–10","10–11","11–12","12–13","13–14","14–15","15–16","16–17","17–18","18–19","19–20"];
-  var taken = {2:true, 6:true};
-  var selected = null, booked = false;
-  slotTimes.forEach(function(t, i){
-    var s = document.createElement('div');
-    s.className = "slot" + (taken[i] ? " taken" : "");
-    s.textContent = t;
-    if(!taken[i]){
-      s.addEventListener('click', function(){
-        if(booked) return;
-        document.querySelectorAll('.slot.sel').forEach(function(x){ x.classList.remove('sel'); });
-        s.classList.add('sel'); selected = t;
-      });
+  /* glass flip card: auto-cycle before/after (not clickable) */
+  var flip = document.getElementById('flipCard');
+  if(flip){
+    var reduceFlip = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceFlip){
+      setInterval(function(){ flip.classList.toggle('flipped'); }, 3600);
     }
-    grid.appendChild(s);
-    if(t === "17–18"){ s.classList.add('sel'); selected = t; }
-  });
-  var confirmBtn = document.getElementById('confirmBtn');
-  var confirmMsg = document.getElementById('confirmMsg');
-  var remainEl = document.getElementById('remain');
-  confirmBtn.addEventListener('click', function(){
-    if(booked){ booked=false; remainEl.textContent="12"; confirmMsg.classList.remove('show'); confirmBtn.textContent="Confirm booking"; return; }
-    if(!selected) return;
-    booked = true; remainEl.textContent = "11";
-    confirmMsg.classList.add('show'); confirmBtn.textContent = "Book another";
-  });
+  }
 
   /* admin calendar */
   var cal = document.getElementById('cal');
