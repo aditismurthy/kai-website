@@ -116,47 +116,42 @@
   .point-list.on-dark p{color:#AEB9CC;}
 
   /* ---------- HORIZONTAL ACCORDION ---------- */
-  .accordion{display:flex;gap:10px;height:360px;width:100%;}
-  .apanel{position:relative;flex:1 1 0;min-width:150px;border-radius:14px;overflow:hidden;cursor:pointer;
-    background:linear-gradient(165deg,#2C7BFF 0%, #0F52CF 100%);
-    box-shadow:0 22px 44px -26px rgba(0,0,0,.65);
-    transition:flex-grow .55s cubic-bezier(.4,0,.2,1);}
-  .apanel::after{content:"";position:absolute;inset:0;background:radial-gradient(130% 80% at 85% 0%, rgba(64,197,235,.40), transparent 58%);opacity:.6;pointer-events:none;}
-  .apanel.active{flex-grow:3;background:linear-gradient(165deg,#1E70FF 0%, #0B3B9C 100%);}
-  .apanel .spine{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;opacity:1;transition:opacity .3s ease;}
-  .apanel.active .spine{opacity:0;pointer-events:none;}
-  .spine-top{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .ptag{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;}
-  .ptag.free{color:#CFE2FF;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);}
-  .ptag.paid{color:#1A2540;background:#FFD37A;border:1px solid #FFD37A;font-weight:600;}
-  .d-tags{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
-  .detail .dprice{font-family:var(--font-ui);font-weight:600;font-size:13px;color:#FFE1A6;margin-top:8px;}
-  .spine .pic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#fff;}
-  .spine .pic svg{width:20px;height:20px;}
-  .spine .vname{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:#fff;white-space:nowrap;letter-spacing:.01em;text-align:center;padding:0 8px;}
-  .spine .vslots{display:flex;flex-direction:column;align-items:center;gap:2px;}
-  .spine .vslots .vn{font-family:var(--font-ui);font-weight:800;font-size:18px;color:#fff;line-height:1;}
-  .spine .vslots .vlbl{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#CFE2FF;line-height:1.15;text-align:center;}
-  .apanel .detail{position:absolute;inset:0;z-index:2;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;min-width:280px;opacity:0;pointer-events:none;transition:opacity .4s ease .12s;}
-  .apanel.active .detail{opacity:1;pointer-events:auto;}
-  .detail .d-top{display:flex;align-items:flex-start;justify-content:space-between;}
-  .detail .pic{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;}
-  .detail .pic svg{width:23px;height:23px;}
-  .detail .cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#CFE2FF;background:rgba(255,255,255,.12);padding:5px 10px;border-radius:999px;}
-  .detail .dname{font-family:var(--font-ui);font-weight:800;font-size:22px;line-height:1.15;color:#fff;letter-spacing:-0.01em;}
-  .detail .dmeta{font-size:13px;color:#CFE2FF;margin-top:6px;line-height:1.5;}
-  .detail .a-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 10px;}
-  .detail .a-slot{font-family:var(--font-mono);font-size:11px;text-align:center;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EAF1FF;}
-  .detail .a-slot.off{opacity:.4;text-decoration:line-through;}
-  .detail .a-slot.sel{background:#fff;color:#1E70FF;border-color:#fff;font-weight:600;}
-  .detail .a-field{font-size:12.5px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 11px;margin-bottom:7px;}
-  .detail .d-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;}
-  .detail .dslots .n{font-family:var(--font-ui);font-weight:800;font-size:30px;color:#fff;line-height:1;}
-  .detail .dslots .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#CFE2FF;display:block;margin-top:4px;}
-  .detail .book{font-family:var(--font-ui);font-weight:600;font-size:13px;background:#fff;color:#1E70FF;border-radius:var(--radius-pill);padding:10px 18px;white-space:nowrap;transition:transform .15s ease;}
-  .detail .book:hover{transform:translateY(-1px);}
-  @media(max-width:900px){.hero-split{grid-template-columns:1fr;gap:34px;}.accordion{height:320px;}}
-  @media(max-width:560px){.accordion{flex-direction:column;height:auto;}.apanel{min-width:0;}.apanel .spine{flex-direction:row;justify-content:flex-start;gap:14px;padding:14px 16px;}.spine .vname{writing-mode:horizontal-tb;transform:none;}.apanel.active{flex-grow:0;}.apanel .detail{position:relative;min-width:0;}.apanel:not(.active) .detail{display:none;}}
+  /* venues: compact 3x2 grid, hover/tap to expand */
+  .vhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .vday{font-family:var(--font-ui);font-weight:700;font-size:16px;color:#fff;}
+  .vday span{color:#8FC4FF;}
+  .vlegend{display:flex;gap:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#AEB9CC;}
+  .vlegend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px;}
+  .vlegend i.av{background:#4089FF;}
+  .vlegend i.bk{background:#6B7284;}
+  .venues{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start;}
+  .vcard{position:relative;border-radius:14px;padding:14px 15px;overflow:hidden;cursor:pointer;color:#fff;background:linear-gradient(165deg,#2C7BFF 0%, #0F52CF 100%);box-shadow:0 18px 38px -24px rgba(0,0,0,.6);transition:box-shadow .3s ease;}
+  .vcard.booked{background:linear-gradient(165deg,#3A4150 0%, #232936 100%);}
+  .vcard::after{content:"";position:absolute;inset:0;background:radial-gradient(130% 80% at 85% 0%, rgba(64,197,235,.35), transparent 58%);opacity:.5;pointer-events:none;}
+  .vcard.booked::after{background:radial-gradient(130% 80% at 85% 0%, rgba(214,69,80,.20), transparent 60%);}
+  .vc-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .vpic{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;}
+  .vpic svg{width:18px;height:18px;}
+  .vstatus{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:4px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+  .vstatus i{width:6px;height:6px;border-radius:50%;}
+  .vcard.open .vstatus{color:#DDEAFF;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);}
+  .vcard.open .vstatus i{background:#8FF0B6;}
+  .vcard.booked .vstatus{color:#FFD4D7;background:rgba(214,69,80,.18);border:1px solid rgba(214,69,80,.42);}
+  .vcard.booked .vstatus i{background:#F06C72;}
+  .vc-name{position:relative;z-index:1;font-family:var(--font-ui);font-weight:700;font-size:15px;margin-top:12px;}
+  .vc-meta{position:relative;z-index:1;font-size:12px;color:rgba(255,255,255,.72);margin-top:3px;}
+  .vbody{position:relative;z-index:1;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.4,0,.2,1), opacity .4s ease;}
+  .vcard:hover .vbody, .vcard.open-tap .vbody{max-height:320px;opacity:1;}
+  .vbody-inner{padding-top:12px;}
+  .v-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:9px;}
+  .v-slot{font-family:var(--font-mono);font-size:10.5px;text-align:center;padding:6px 3px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EAF1FF;}
+  .v-slot.off{opacity:.4;text-decoration:line-through;}
+  .v-slot.sel{background:#fff;color:#1E70FF;border-color:#fff;font-weight:600;}
+  .v-field{font-size:12px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:7px 10px;margin-bottom:6px;}
+  .v-book{display:block;text-align:center;font-family:var(--font-ui);font-weight:600;font-size:12.5px;background:#fff;color:#1E70FF;border-radius:999px;padding:9px;margin-top:4px;}
+  .v-booked-note{font-size:12.5px;color:#FFD4D7;line-height:1.5;}
+  @media(max-width:900px){.hero-split{grid-template-columns:1fr;gap:34px;}.venues{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.venues{grid-template-columns:1fr;}}
 
   /* ---------- BROWSER / VISUAL FRAME ---------- */
   .frame{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 40px 90px -34px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.04);}
@@ -448,6 +443,12 @@
   .qa .ans p{margin:0;padding:0 20px 18px;font-size:14.5px;color:var(--slate);line-height:1.6;}
 
   /* ---------- FINAL CTA ---------- */
+  .finale{position:relative;overflow:hidden;
+    background:radial-gradient(900px 520px at 85% 0%, rgba(30,112,255,.34), transparent 55%),
+      radial-gradient(700px 500px at 10% 110%, rgba(15,168,214,.12), transparent 55%),
+      linear-gradient(160deg, var(--ink-2) 0%, var(--ink-deep) 100%);}
+  #finaleParticles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .finale > .cta, .finale > footer{position:relative;z-index:1;background:transparent;}
   .cta{padding:60px 0;text-align:center;color:#fff;
     background:radial-gradient(800px 420px at 50% -10%, rgba(64,197,235,.25), transparent 60%), linear-gradient(135deg,var(--kai-signal),#1550C8);}
   .cta h2{font-weight:800;font-size:clamp(28px,3.8vw,44px);letter-spacing:-0.03em;margin:16px 0 14px;text-wrap:balance;color:#fff;}
@@ -676,7 +677,8 @@
     <div class="hero-split">
       <!-- LEFT: horizontal accordion of spaces -->
       <div class="hero-visual">
-        <div class="accordion" id="accordion"></div>
+        <div class="vhead"><span class="vday">Today · <span id="vDay">Friday</span></span><span class="vlegend"><span><i class="av"></i>Available</span><span><i class="bk"></i>Booked</span></span></div>
+        <div class="venues" id="venues"></div>
       </div>
 
       <!-- RIGHT: the three points -->
@@ -753,7 +755,7 @@
   <div class="wrap">
     <div class="split">
       <div class="copy">
-        <h2>Bookings you set the <span class="serif">rules for.</span></h2>
+        <h2>Bookings you set the rules for.</h2>
         <p class="lead">Decide once who can book what, and on what terms.</p>
         <ul class="steps">
           <li><span class="s-num">01</span><div class="s-body"><h3>Equipment mapped</h3><p>Assets tagged to the room they belong to.</p></div></li>
@@ -802,6 +804,8 @@
 
 <!-- ============ FINAL CTA ============ -->
 <a id="demo"></a>
+<section class="finale">
+  <canvas id="finaleParticles" aria-hidden="true"></canvas>
 <section class="cta">
   <div class="wrap">
     <h2>Put every venue on one list.</h2>
@@ -1000,6 +1004,7 @@
     </div>
   </div>
 </footer>
+</section>
 
 <script>
 (function(){
@@ -1031,41 +1036,40 @@
   };
 
   // curated mix shown in the hero accordion
-  var featured = [
-    {name:"Basketball Court A", block:"Sports Complex",  cap:30,  hours:"6 AM to 10 PM", slots:7, icon:"ball",  tag:"Sports",     paid:false},
-    {name:"Main Auditorium",    block:"Central Block",   cap:450, hours:"9 AM to 10 PM", slots:2, icon:"audi",  tag:"Auditorium", paid:false},
-    {name:"Music Room",         block:"Arts Centre",     cap:15,  hours:"8 AM to 9 PM",  slots:5, icon:"music", tag:"Music",      paid:false},
-    {name:"Innovation Lab",     block:"Science Block",   cap:24,  hours:"8 AM to 11 PM", slots:8, icon:"lab",   tag:"Lab",        paid:true, price:"From ₹500 / hour"}
+  var venues = [
+    {name:"Basketball Court A", block:"Sports Complex",  cap:30,  icon:"ball",  booked:false},
+    {name:"Main Auditorium",    block:"Central Block",   cap:450, icon:"audi",  booked:true},
+    {name:"Music Room",         block:"Arts Centre",     cap:15,  icon:"music", booked:false},
+    {name:"Seminar Room 301",   block:"Academic Block B",cap:40,  icon:"room",  booked:true},
+    {name:"Strength Gym",       block:"Wellness Centre", cap:25,  icon:"gym",   booked:false},
+    {name:"Innovation Lab",     block:"Science Block",   cap:24,  icon:"lab",   booked:false}
   ];
-
-  var accEl = document.getElementById('accordion');
-  function render(){
-    accEl.innerHTML = "";
-    featured.forEach(function(s, i){
-      var hours = s.hours;
-      var el = document.createElement('div');
-      el.className = "apanel" + (i === 0 ? " active" : "");
-      el.innerHTML =
-        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
-        '<div class="detail">'+
-          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+s.tag+'</div></div>'+
-          '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div>'+
-            '<div class="a-slots"><span class="a-slot">15:00</span><span class="a-slot off">16:00</span><span class="a-slot sel">17:00</span><span class="a-slot">18:00</span><span class="a-slot">19:00</span><span class="a-slot">20:00</span></div>'+
-            '<div class="a-field">What is the event for?</div>'+
-            '<div class="a-field">Add attendees</div></div>'+
-          '<div class="d-foot"><div class="dslots"><span class="n">'+s.slots+'</span><span class="l">slots left today</span></div><a class="book" href="#">Book this space</a></div>'+
-        '</div>';
-      function activate(){
-        var cur = accEl.querySelector('.apanel.active');
-        if(cur) cur.classList.remove('active');
-        el.classList.add('active');
-      }
-      el.addEventListener('mouseenter', activate);
-      el.addEventListener('click', activate);
-      accEl.appendChild(el);
+  var vEl = document.getElementById('venues');
+  if(vEl){
+    venues.forEach(function(s){
+      var card = document.createElement('div');
+      card.className = "vcard " + (s.booked ? "booked" : "open");
+      var body = s.booked
+        ? '<div class="v-booked-note">Booked for the rest of today. Next free slot is tomorrow at 9:00 AM.</div>'
+        : '<div class="v-slots"><span class="v-slot">15:00</span><span class="v-slot off">16:00</span><span class="v-slot sel">17:00</span><span class="v-slot">18:00</span><span class="v-slot">19:00</span><span class="v-slot">20:00</span></div>'+
+          '<div class="v-field">What is the event for?</div>'+
+          '<div class="v-field">Add attendees</div>'+
+          '<a class="v-book" href="#">Book this space</a>';
+      card.innerHTML =
+        '<div class="vc-head"><div class="vpic">'+icons[s.icon]+'</div><span class="vstatus"><i></i>'+(s.booked?'Booked':'Available')+'</span></div>'+
+        '<div class="vc-name">'+s.name+'</div>'+
+        '<div class="vc-meta">'+s.block+' · Holds '+s.cap+'</div>'+
+        '<div class="vbody"><div class="vbody-inner">'+body+'</div></div>';
+      card.addEventListener('click', function(){ card.classList.toggle('open-tap'); });
+      vEl.appendChild(card);
     });
+    var dEl = document.getElementById('vDay');
+    if(dEl){
+      var names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      var ist=new Date(new Date().getTime()+(new Date().getTimezoneOffset()*60000)+(330*60000));
+      dEl.textContent=names[ist.getDay()];
+    }
   }
-  render();
 
   /* before/after cards: navy cover panel lifts into a heading on scroll */
   (function revealStages(){
@@ -1166,10 +1170,10 @@
     faqList.appendChild(item);
   });
 
-  /* ---------- PARTICLE FIELD (hero backdrop) ---------- */
+  /* ---------- PARTICLE FIELD (hero + finale backdrops) ---------- */
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  (function heroParticles(){
-    var cv = document.getElementById('heroParticles');
+  function particleField(id){
+    var cv = document.getElementById(id);
     if(!cv || reduce) return;
     var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio||1, 2);
     var w, h, pts = [];
@@ -1202,7 +1206,9 @@
     }
     size(); tick();
     window.addEventListener('resize', size);
-  })();
+  }
+  particleField('heroParticles');
+  particleField('finaleParticles');
 
   /* mobile nav */
   var toggle = document.querySelector('.nav-toggle');
