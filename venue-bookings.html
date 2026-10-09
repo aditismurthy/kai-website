@@ -294,6 +294,19 @@
   .point-list.who-points.in li:nth-child(2){transition-delay:.4s;}
   .point-list.who-points.in li:nth-child(3){transition-delay:.8s;}
   .point-list.who-points.in li:nth-child(4){transition-delay:1.2s;}
+  /* admin editorial numbered steps */
+  .steps{list-style:none;padding:0;margin:0;}
+  .steps li{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:baseline;padding:24px 0;border-top:2px solid #C2C8D2;}
+  .steps li:last-child{border-bottom:2px solid #C2C8D2;}
+  .steps .s-num{font-family:var(--font-ui);font-weight:800;font-size:clamp(24px,3vw,34px);line-height:1;letter-spacing:-0.02em;color:#A9B6CC;}
+  .steps .s-body h3{font-family:var(--font-ui);font-weight:800;font-size:clamp(17px,2vw,22px);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:0 0 6px;}
+  .steps .s-body p{margin:0;font-size:14.5px;color:var(--slate);line-height:1.55;}
+  /* roll downwards on scroll */
+  .steps li{opacity:0;transform:translateY(-28px);transition:opacity .6s ease, transform .7s cubic-bezier(.2,.75,.2,1);}
+  .steps.in li{opacity:1;transform:none;}
+  .steps.in li:nth-child(1){transition-delay:0s;}
+  .steps.in li:nth-child(2){transition-delay:.2s;}
+  .steps.in li:nth-child(3){transition-delay:.4s;}
   .point-list.who-points li:last-child{border-bottom:2px solid #C2C8D2;}
   /* My bookings: light readable card + navy/silver header card that rolls in */
   .stage-col{position:relative;padding-top:30px;perspective:1000px;}
@@ -532,10 +545,10 @@
         <span class="eyebrow"><span class="dot"></span>For administrators</span>
         <h2>Bookings you set the <span class="serif">rules for.</span></h2>
         <p class="lead">Decide once who can book what, and on what terms.</p>
-        <ul class="point-list">
-          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="2" stroke="#1E70FF" stroke-width="1.5"/><path d="M6.5 9l1.6 1.6L12 6.8" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Equipment mapped</h3><p>Assets tagged to the room they belong to.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><rect x="2.5" y="4" width="13" height="11" rx="2" stroke="#1E70FF" stroke-width="1.5"/><path d="M2.5 7.5h13M6 2.5v3M12 2.5v3" stroke="#1E70FF" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><h3>One admin calendar</h3><p>Every space on a single view.</p></div></li>
-          <li><span class="ic"><svg viewBox="0 0 18 18" fill="none"><path d="M2.5 14V9M7 14V5M11.5 14V7M16 14V3" stroke="#1E70FF" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><h3>Faculty / coordinator overview</h3><p>A dedicated dashboard for department heads to monitor space utilisation and schedule departmental events.</p></div></li>
+        <ul class="steps">
+          <li><span class="s-num">01</span><div class="s-body"><h3>Equipment mapped</h3><p>Assets tagged to the room they belong to.</p></div></li>
+          <li><span class="s-num">02</span><div class="s-body"><h3>One admin calendar</h3><p>Every space on a single view.</p></div></li>
+          <li><span class="s-num">03</span><div class="s-body"><h3>Faculty / coordinator overview</h3><p>A dedicated dashboard for department heads to monitor space utilisation and schedule departmental events.</p></div></li>
         </ul>
       </div>
 
@@ -729,6 +742,18 @@
       });
     }, {threshold:0.3});
     io.observe(wp);
+  })();
+
+  /* admin steps roll downwards on scroll (replays) */
+  (function rollSteps(){
+    var st = document.querySelector('.steps');
+    if(!st) return;
+    var reduceS = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceS || !('IntersectionObserver' in window)){ st.classList.add('in'); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? st.classList.add('in') : st.classList.remove('in'); });
+    }, {threshold:0.3});
+    io.observe(st);
   })();
 
   /* admin calendar */
