@@ -104,7 +104,11 @@
   .view-all:hover{color:#fff;}
   .points-title{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5E6B85;margin:0 0 18px;}
   .point-list.on-dark{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:none;margin:0;}
-  .point-list.on-dark li{align-items:flex-start;gap:14px;text-align:left;padding:20px 22px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.04);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+  .point-list.on-dark li{align-items:flex-start;gap:12px;text-align:left;padding:15px 16px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(255,255,255,.04);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+  .point-list.on-dark h3{font-size:15px;}
+  .point-list.on-dark p{font-size:13px;}
+  .point-list.on-dark .ic{width:30px;height:30px;}
+  .point-list.on-dark .ic svg{width:15px;height:15px;}
   @media(max-width:760px){.point-list.on-dark{grid-template-columns:1fr;}}
   .point-list.on-dark .ic{background:rgba(30,112,255,.16);border-color:rgba(30,112,255,.42);color:#8FC4FF;}
   .point-list.on-dark h3{color:#fff;}
@@ -276,6 +280,15 @@
   .point-list.who-points li{display:block;padding:22px 0;border-top:2px solid #C2C8D2;}
   .point-list.who-points h3{font-weight:800;}
   .point-list.who-points p{font-weight:500;color:#5C6B7E;}
+  /* staggered roll-out from behind the card */
+  .point-list.who-points li{opacity:0;transform:translateX(-70px);
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 70px);mask-image:linear-gradient(90deg, transparent 0, #000 70px);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.2,.75,.2,1), -webkit-mask-position .8s ease;}
+  .point-list.who-points.in li{opacity:1;transform:none;-webkit-mask-image:none;mask-image:none;}
+  .point-list.who-points.in li:nth-child(1){transition-delay:0s;}
+  .point-list.who-points.in li:nth-child(2){transition-delay:1s;}
+  .point-list.who-points.in li:nth-child(3){transition-delay:2s;}
+  .point-list.who-points.in li:nth-child(4){transition-delay:3s;}
   .point-list.who-points li:last-child{border-bottom:2px solid #C2C8D2;}
   /* My bookings: light readable card + navy/silver header card that rolls in */
   .stage-col{position:relative;padding-top:30px;perspective:1000px;}
@@ -693,6 +706,18 @@
       });
     }, {threshold:0.35});
     cols.forEach(function(c){ io.observe(c); });
+  })();
+
+  /* who-can-book points roll out one by one */
+  (function rollPoints(){
+    var wp = document.querySelector('.who-points');
+    if(!wp) return;
+    var reduceP = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceP || !('IntersectionObserver' in window)){ wp.classList.add('in'); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ wp.classList.add('in'); io.unobserve(wp); } });
+    }, {threshold:0.3});
+    io.observe(wp);
   })();
 
   /* admin calendar */
