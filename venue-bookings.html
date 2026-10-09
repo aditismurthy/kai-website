@@ -262,7 +262,7 @@
   .cal-widget{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:stretch;
     background:#131A2D;border:1px solid #2E3852;border-radius:22px;padding:22px;
     box-shadow:0 30px 70px -34px rgba(13,18,32,.6);}
-  .cw-tile{position:relative;width:190px;border-radius:18px;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;
+  .cw-tile{position:relative;width:158px;border-radius:18px;overflow:hidden;padding:18px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;align-self:center;
     background:
       radial-gradient(120% 90% at 85% 10%, rgba(190,196,210,.65), transparent 55%),
       radial-gradient(120% 120% at 10% 100%, rgba(60,74,102,.9), transparent 60%),
@@ -284,9 +284,9 @@
   .av-row.av-head span{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:#6E7B92;text-align:center;}
   .av-row.av-head .av-name{text-align:left;}
   .av-name{font-family:var(--font-ui);font-size:13px;font-weight:600;color:#C4CCDA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .av-cell{height:22px;border-radius:6px;}
-  .av-cell.open{background:var(--kai-signal);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
-  .av-cell.booked{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+  .av-cell{height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;}
+  .av-cell.open{background:var(--kai-signal);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
+  .av-cell.booked{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:#6E7B92;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
   @media(max-width:600px){.cal-widget{grid-template-columns:1fr;}.cw-tile{width:auto;height:160px;flex-direction:row;align-items:flex-end;}.av-row{grid-template-columns:96px repeat(5,1fr);}.av-name{font-size:12px;}}
 
   .admin-note{margin-top:22px;background:var(--ink);border-radius:12px;padding:20px 22px;color:var(--warm-white);display:flex;gap:16px;align-items:center;}
@@ -333,12 +333,6 @@
   .steps .s-num{font-family:var(--font-ui);font-weight:800;font-size:18px;line-height:1;letter-spacing:-0.02em;color:#A9B6CC;}
   .steps .s-body h3{font-family:var(--font-ui);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);margin:0 0 4px;}
   .steps .s-body p{margin:0;font-size:13px;color:var(--slate);line-height:1.5;}
-  /* roll downwards on scroll */
-  .steps li{opacity:0;transform:translateY(-28px);transition:opacity .6s ease, transform .7s cubic-bezier(.2,.75,.2,1);}
-  .steps.in li{opacity:1;transform:none;}
-  .steps.in li:nth-child(1){transition-delay:0s;}
-  .steps.in li:nth-child(2){transition-delay:.2s;}
-  .steps.in li:nth-child(3){transition-delay:.4s;}
   .point-list.who-points li:last-child{border-bottom:2px solid #C2C8D2;}
   /* My bookings: light readable card + navy/silver header card that rolls in */
   .stage-col{position:relative;padding-top:30px;perspective:1000px;}
@@ -771,17 +765,6 @@
     io.observe(wp);
   })();
 
-  /* admin steps roll downwards on scroll (replays) */
-  (function rollSteps(){
-    var st = document.querySelector('.steps');
-    if(!st) return;
-    var reduceS = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduceS || !('IntersectionObserver' in window)){ st.classList.add('in'); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ e.isIntersecting ? st.classList.add('in') : st.classList.remove('in'); });
-    }, {threshold:0.3});
-    io.observe(st);
-  })();
 
   /* calendar widget: live date + IST clock + availability grid */
   (function calWidget(){
@@ -812,10 +795,15 @@
         {name:"Music Room",       days:[1,1,0,1,1]}
       ]; // 1 = open, 0 = booked
       var dcols = ["M","T","W","T","F"];
+      // Mon–Fri dates of the current IST week
+      var base = new Date(new Date().getTime() + (new Date().getTimezoneOffset()*60000) + (330*60000));
+      var dow = base.getDay(); var diff = (dow===0?-6:1-dow);
+      var mon = new Date(base); mon.setDate(base.getDate()+diff);
+      var dates = []; for(var i=0;i<5;i++){ var d=new Date(mon); d.setDate(mon.getDate()+i); dates.push(d.getDate()); }
       var head = '<div class="av-row av-head"><span class="av-name"></span>'+dcols.map(function(d){return '<span>'+d+'</span>';}).join('')+'</div>';
       var rows = venues.map(function(v){
         return '<div class="av-row"><span class="av-name">'+v.name+'</span>'+
-          v.days.map(function(o){return '<span class="av-cell '+(o?'open':'booked')+'"></span>';}).join('')+'</div>';
+          v.days.map(function(o,ci){return '<span class="av-cell '+(o?'open':'booked')+'">'+dates[ci]+'</span>';}).join('')+'</div>';
       }).join('');
       availEl.innerHTML = head + rows;
     }
