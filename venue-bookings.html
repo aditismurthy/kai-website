@@ -412,11 +412,12 @@
   .g-note svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;color:#8FC4FF;}
 
   /* dark punchline band */
-  .punch{background:linear-gradient(160deg,var(--ink-2),var(--ink-deep));color:var(--warm-white);padding:80px 0;}
+  .punch{background:linear-gradient(160deg,#EEF4FF,#F4F4F3);padding:80px 0;}
+  .punch .eyebrow{color:var(--kai-signal);}
   .punch .wrap{max-width:900px;text-align:center;}
-  .punch h2{font-weight:800;font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-0.025em;color:#fff;margin:14px 0 0;text-wrap:balance;}
+  .punch h2{font-weight:800;font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-0.025em;margin:14px 0 0;text-wrap:balance;}
   .punch .punch-head, .punch .punch-head .serif{
-    background:linear-gradient(110deg, #FFFFFF 0%, #CFE2FF 22%, #8FC4FF 42%, #4089FF 60%, #CFE2FF 80%, #FFFFFF 100%);
+    background:linear-gradient(110deg, #16213B 0%, #1E70FF 30%, #8FA6C4 50%, #1E70FF 70%, #16213B 100%);
     background-size:240% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
@@ -567,12 +568,18 @@
   </div>
 </section>
 
+<!-- ============ LIGHT PUNCHLINE ============ -->
+<section class="punch">
+  <div class="wrap">
+    <h2 class="punch-head">One list. One calendar. <span class="serif">Every booking.</span></h2>
+  </div>
+</section>
+
 <!-- ============ ADMIN / RULES ============ -->
 <section class="block paleblue">
   <div class="wrap">
     <div class="split">
       <div class="copy">
-        <span class="eyebrow"><span class="dot"></span>For administrators</span>
         <h2>Bookings you set the <span class="serif">rules for.</span></h2>
         <p class="lead">Decide once who can book what, and on what terms.</p>
         <ul class="steps">
@@ -605,14 +612,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ DARK PUNCHLINE ============ -->
-<section class="punch">
-  <div class="wrap">
-    <span class="eyebrow on-dark" style="justify-content:center;"><span class="dot"></span>Every space, one place</span>
-    <h2 class="punch-head">One list. One calendar. <span class="serif">Every booking.</span></h2>
   </div>
 </section>
 
