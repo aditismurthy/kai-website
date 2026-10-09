@@ -268,19 +268,26 @@
       radial-gradient(120% 120% at 10% 100%, rgba(60,74,102,.9), transparent 60%),
       linear-gradient(145deg, #16213B 0%, #2B3650 45%, #AEB7C8 100%);}
   .cw-date{font-family:var(--font-ui);font-weight:800;font-size:28px;letter-spacing:-0.02em;}
+  .cw-ist{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:#D4D9E2;margin-top:4px;}
   .cw-meta{font-family:var(--font-body);}
   .cw-day{font-size:15px;color:#EAEDF3;font-weight:600;}
-  .cw-count{font-size:14px;color:#D4D9E2;margin-top:2px;}
-  .cw-right{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:4px 6px;}
-  .cw-title{font-family:var(--font-ui);font-weight:700;font-size:18px;color:#fff;margin-bottom:10px;}
-  .cw-event{display:flex;align-items:stretch;gap:12px;padding:8px 0;}
-  .cw-bar{width:4px;border-radius:3px;flex-shrink:0;}
-  .cw-bar.b1{background:var(--kai-signal);}
-  .cw-bar.b2{background:var(--cyan);}
-  .cw-bar.b3{background:#8FB2FF;}
-  .cw-event .e-name{font-family:var(--font-ui);font-weight:600;font-size:16px;color:#fff;}
-  .cw-event .e-time{font-family:var(--font-body);font-size:13.5px;color:#909CB0;margin-top:2px;}
-  @media(max-width:460px){.cal-widget{grid-template-columns:1fr;}.cw-tile{width:auto;height:150px;}}
+  .cw-count{font-size:13px;color:#D4D9E2;margin-top:2px;}
+  .cw-right{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:4px 6px;}
+  .cw-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .cw-title{font-family:var(--font-ui);font-weight:700;font-size:18px;color:#fff;}
+  .cw-legend{display:flex;gap:14px;font-size:11px;color:#909CB0;}
+  .cw-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px;}
+  .cw-legend i.open{background:var(--kai-signal);}
+  .cw-legend i.booked{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);}
+  .avail{display:flex;flex-direction:column;gap:7px;}
+  .av-row{display:grid;grid-template-columns:130px repeat(5,1fr);gap:7px;align-items:center;}
+  .av-row.av-head span{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:#6E7B92;text-align:center;}
+  .av-row.av-head .av-name{text-align:left;}
+  .av-name{font-family:var(--font-ui);font-size:13px;font-weight:600;color:#C4CCDA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .av-cell{height:22px;border-radius:6px;}
+  .av-cell.open{background:var(--kai-signal);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
+  .av-cell.booked{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+  @media(max-width:600px){.cal-widget{grid-template-columns:1fr;}.cw-tile{width:auto;height:160px;flex-direction:row;align-items:flex-end;}.av-row{grid-template-columns:96px repeat(5,1fr);}.av-name{font-size:12px;}}
 
   .admin-note{margin-top:22px;background:var(--ink);border-radius:12px;padding:20px 22px;color:var(--warm-white);display:flex;gap:16px;align-items:center;}
   .admin-note .toggle{flex-shrink:0;width:46px;height:26px;border-radius:999px;background:var(--kai-signal);position:relative;}
@@ -580,17 +587,21 @@
       <div>
         <div class="cal-widget">
           <div class="cw-tile">
-            <div class="cw-date">Oct 8</div>
+            <div>
+              <div class="cw-date" id="cwDate">Oct 8</div>
+              <div class="cw-ist" id="cwIst">—</div>
+            </div>
             <div class="cw-meta">
-              <div class="cw-day">Wednesday</div>
-              <div class="cw-count">4 bookings</div>
+              <div class="cw-day" id="cwDay">Wednesday</div>
+              <div class="cw-count">This week</div>
             </div>
           </div>
           <div class="cw-right">
-            <div class="cw-title">Upcoming</div>
-            <div class="cw-event"><span class="cw-bar b1"></span><div><div class="e-name">Main Auditorium</div><div class="e-time">09:00 – 11:00</div></div></div>
-            <div class="cw-event"><span class="cw-bar b2"></span><div><div class="e-name">Seminar Room 301</div><div class="e-time">14:15 – 15:00</div></div></div>
-            <div class="cw-event"><span class="cw-bar b3"></span><div><div class="e-name">Strength Gym</div><div class="e-time">17:00 – 18:00</div></div></div>
+            <div class="cw-head">
+              <span class="cw-title">Availability</span>
+              <span class="cw-legend"><span><i class="open"></i>Open</span><span><i class="booked"></i>Booked</span></span>
+            </div>
+            <div class="avail" id="avail"></div>
           </div>
         </div>
       </div>
@@ -769,6 +780,44 @@
       entries.forEach(function(e){ e.isIntersecting ? st.classList.add('in') : st.classList.remove('in'); });
     }, {threshold:0.3});
     io.observe(st);
+  })();
+
+  /* calendar widget: live date + IST clock + availability grid */
+  (function calWidget(){
+    var dateEl = document.getElementById('cwDate'),
+        dayEl = document.getElementById('cwDay'),
+        istEl = document.getElementById('cwIst'),
+        availEl = document.getElementById('avail');
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    function tick(){
+      var now = new Date();
+      // IST = UTC + 5:30
+      var ist = new Date(now.getTime() + (now.getTimezoneOffset()*60000) + (330*60000));
+      if(dateEl) dateEl.textContent = months[ist.getMonth()] + " " + ist.getDate();
+      if(dayEl) dayEl.textContent = dayNames[ist.getDay()];
+      if(istEl){
+        var h = ist.getHours(), m = ist.getMinutes();
+        istEl.textContent = (h<10?"0":"")+h + ":" + (m<10?"0":"")+m + " IST";
+      }
+    }
+    tick(); setInterval(tick, 30000);
+
+    if(availEl){
+      var venues = [
+        {name:"Main Auditorium",  days:[0,1,0,0,1]},
+        {name:"Seminar Room 301", days:[1,0,1,1,0]},
+        {name:"Strength Gym",     days:[0,1,1,0,1]},
+        {name:"Music Room",       days:[1,1,0,1,1]}
+      ]; // 1 = open, 0 = booked
+      var dcols = ["M","T","W","T","F"];
+      var head = '<div class="av-row av-head"><span class="av-name"></span>'+dcols.map(function(d){return '<span>'+d+'</span>';}).join('')+'</div>';
+      var rows = venues.map(function(v){
+        return '<div class="av-row"><span class="av-name">'+v.name+'</span>'+
+          v.days.map(function(o){return '<span class="av-cell '+(o?'open':'booked')+'"></span>';}).join('')+'</div>';
+      }).join('');
+      availEl.innerHTML = head + rows;
+    }
   })();
 
   /* FAQ */
