@@ -257,19 +257,25 @@
   .admin-note .state{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7FE3A6;margin-left:6px;}
 
   /* who-can-book layout + side-by-side stages */
-  .who-split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
-  .who-right .eyebrow{font-family:var(--font-ui);font-weight:800;font-size:clamp(18px,2vw,24px);letter-spacing:0.14em;
+  .who-split{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;column-gap:60px;align-items:stretch;}
+  .who-head{grid-column:1;grid-row:1;margin-bottom:30px;}
+  .who-split .stage-col{grid-column:1;grid-row:2;max-width:430px;width:100%;}
+  .who-points{grid-column:2;grid-row:2;align-self:stretch;}
+  .who-head .eyebrow{font-family:var(--font-ui);font-weight:800;font-size:clamp(18px,2vw,24px);letter-spacing:0.14em;
     background:linear-gradient(90deg,#0B3B9C 0%, #A7B2C4 50%, #1E70FF 100%);
     background-size:220% auto;background-position:left center;
     -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
     transition:background-position .6s ease;cursor:default;}
-  .who-right .eyebrow:hover{background-position:right center;}
-  .who-right h2{font-weight:700;font-size:clamp(27px,3.3vw,38px);line-height:1.12;letter-spacing:-0.025em;margin:14px 0 14px;}
-  .who-right h2 .serif{color:var(--ink);}
-  .who-right .lead{font-size:16px;color:var(--slate);margin:0 0 26px;}
+  .who-head .eyebrow:hover{background-position:right center;}
+  .who-head h2{font-weight:700;font-size:clamp(27px,3.3vw,38px);line-height:1.12;letter-spacing:-0.025em;margin:14px 0 14px;}
+  .who-head h2 .serif{color:var(--ink);}
+  .who-head .lead{font-size:16px;color:var(--slate);margin:0 0 26px;}
   .point-list.who-points{display:flex;flex-direction:column;gap:0;}
   .point-list.who-points .ic{display:none;}
+  .point-list.who-points{justify-content:space-between;height:100%;}
   .point-list.who-points li{display:block;padding:22px 0;border-top:2px solid #C2C8D2;}
+  .point-list.who-points h3{font-weight:800;}
+  .point-list.who-points p{font-weight:500;color:#5C6B7E;}
   .point-list.who-points li:last-child{border-bottom:2px solid #C2C8D2;}
   /* My bookings: light readable card + navy/silver header card that rolls in */
   .stage-col{position:relative;padding-top:30px;perspective:1000px;}
@@ -302,7 +308,7 @@
   .mb-cancel{margin-top:16px;font-family:var(--font-ui);font-weight:600;font-size:13px;color:var(--red);cursor:default;}
   .mb-note{display:flex;gap:9px;align-items:flex-start;margin-top:16px;font-size:12.5px;color:var(--slate);line-height:1.5;}
   .mb-note svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;color:var(--kai-signal);}
-  @media(max-width:900px){.who-split{grid-template-columns:1fr;gap:40px;}}
+  @media(max-width:900px){.who-split{grid-template-columns:1fr;row-gap:36px;}.who-head,.who-split .stage-col,.who-points{grid-column:1;grid-row:auto;}.who-split .stage-col{max-width:none;}.point-list.who-points{height:auto;}}
 
   /* ---------- GLASS CARD ---------- */
   .glass-stage{position:relative;border-radius:22px;padding:26px;overflow:hidden;
@@ -470,6 +476,13 @@
 <section class="block light">
   <div class="wrap">
     <div class="who-split">
+      <!-- TOP-LEFT: heading above the card -->
+      <div class="who-head">
+        <span class="eyebrow">Who can book a space?</span>
+        <h2>Anyone within the campus <span class="serif">community.</span></h2>
+        <p class="lead">Students, faculty, alumni and visiting employers can reserve venues for any type of event or activity.</p>
+      </div>
+
       <!-- LEFT: My bookings card with a navy/silver header card that rolls in on scroll -->
       <div class="stage-col">
         <div class="mb-header"><span>My bookings</span></div>
@@ -495,18 +508,13 @@
         </div>
       </div>
 
-      <!-- RIGHT: heading, lead and bordered points -->
-      <div class="who-right">
-        <span class="eyebrow">Who can book a space?</span>
-        <h2>Anyone within the campus <span class="serif">community.</span></h2>
-        <p class="lead">Students, faculty, alumni and visiting employers can reserve venues for any type of event or activity.</p>
-        <ul class="point-list who-points">
-          <li><div><h3>Open access</h3><p>Open to everyone on campus for any type of event.</p></div></li>
-          <li><div><h3>Configurable requirements</h3><p>Request add-ons: lighting, extended hours, catering, setups.</p></div></li>
-          <li><div><h3>Instant confirmation</h3><p>Pick a slot, state your purpose, get an on-the-spot confirmation.</p></div></li>
-          <li><div><h3>Transparent pricing</h3><p>Paid and non-paid venues, with charges shown before you finalise.</p></div></li>
-        </ul>
-      </div>
+      <!-- RIGHT: bordered points aligned to the card -->
+      <ul class="point-list who-points">
+        <li><div><h3>Open access</h3><p>Open to everyone on campus for any type of event.</p></div></li>
+        <li><div><h3>Configurable requirements</h3><p>Request add-ons: lighting, extended hours, catering, setups.</p></div></li>
+        <li><div><h3>Instant confirmation</h3><p>Pick a slot, state your purpose, get an on-the-spot confirmation.</p></div></li>
+        <li><div><h3>Transparent pricing</h3><p>Paid and non-paid venues, with charges shown before you finalise.</p></div></li>
+      </ul>
     </div>
   </div>
 </section>
