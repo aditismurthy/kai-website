@@ -258,6 +258,30 @@
   .cal-legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--slate);}
   .cal-legend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line);}
 
+  /* dark calendar widget */
+  .cal-widget{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:stretch;
+    background:#131A2D;border:1px solid #2E3852;border-radius:22px;padding:22px;
+    box-shadow:0 30px 70px -34px rgba(13,18,32,.6);}
+  .cw-tile{position:relative;width:190px;border-radius:18px;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;
+    background:
+      radial-gradient(120% 90% at 85% 10%, rgba(190,196,210,.65), transparent 55%),
+      radial-gradient(120% 120% at 10% 100%, rgba(60,74,102,.9), transparent 60%),
+      linear-gradient(145deg, #16213B 0%, #2B3650 45%, #AEB7C8 100%);}
+  .cw-date{font-family:var(--font-ui);font-weight:800;font-size:28px;letter-spacing:-0.02em;}
+  .cw-meta{font-family:var(--font-body);}
+  .cw-day{font-size:15px;color:#EAEDF3;font-weight:600;}
+  .cw-count{font-size:14px;color:#D4D9E2;margin-top:2px;}
+  .cw-right{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:4px 6px;}
+  .cw-title{font-family:var(--font-ui);font-weight:700;font-size:18px;color:#fff;margin-bottom:10px;}
+  .cw-event{display:flex;align-items:stretch;gap:12px;padding:8px 0;}
+  .cw-bar{width:4px;border-radius:3px;flex-shrink:0;}
+  .cw-bar.b1{background:var(--kai-signal);}
+  .cw-bar.b2{background:var(--cyan);}
+  .cw-bar.b3{background:#8FB2FF;}
+  .cw-event .e-name{font-family:var(--font-ui);font-weight:600;font-size:16px;color:#fff;}
+  .cw-event .e-time{font-family:var(--font-body);font-size:13.5px;color:#909CB0;margin-top:2px;}
+  @media(max-width:460px){.cal-widget{grid-template-columns:1fr;}.cw-tile{width:auto;height:150px;}}
+
   .admin-note{margin-top:22px;background:var(--ink);border-radius:12px;padding:20px 22px;color:var(--warm-white);display:flex;gap:16px;align-items:center;}
   .admin-note .toggle{flex-shrink:0;width:46px;height:26px;border-radius:999px;background:var(--kai-signal);position:relative;}
   .admin-note .toggle::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;}
@@ -552,31 +576,22 @@
         </ul>
       </div>
 
-      <!-- VISUAL 3: admin calendar heatmap + student-access control -->
+      <!-- VISUAL 3: dark calendar widget + student-access control -->
       <div>
-        <div class="frame">
-          <div class="frame-bar">
-            <div class="dots"><span></span><span></span><span></span></div>
-            <div class="frame-url"><span class="lock">🔒</span>ken42.edu/admin/calendar</div>
-          </div>
-          <div class="frame-body">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
-              <div style="font-family:var(--font-ui);font-weight:600;font-size:14px;">All spaces · this week</div>
-              <div style="font-family:var(--font-mono);font-size:11px;color:var(--slate);">18 blocks · 46 rooms</div>
-            </div>
-            <div class="cal" id="cal"></div>
-            <div class="cal-legend">
-              <span><i style="background:#F3F5F7"></i>Free</span>
-              <span><i style="background:#E1EBFF"></i>Light</span>
-              <span><i style="background:#9FBEFF"></i>Busy</span>
-              <span><i style="background:#1E70FF"></i>Peak</span>
-              <span><i style="background:#FAFAFA;border-style:dashed"></i>Unclaimed</span>
+        <div class="cal-widget">
+          <div class="cw-tile">
+            <div class="cw-date">Oct 8</div>
+            <div class="cw-meta">
+              <div class="cw-day">Wednesday</div>
+              <div class="cw-count">4 bookings</div>
             </div>
           </div>
-        </div>
-        <div class="admin-note">
-          <div class="toggle" role="img" aria-label="Student booking enabled"></div>
-          <div class="txt"><b>Student booking is a control you own.</b> Turn self-service booking on for students<span class="state">● On</span>, or off entirely, for the spaces you choose.</div>
+          <div class="cw-right">
+            <div class="cw-title">Upcoming</div>
+            <div class="cw-event"><span class="cw-bar b1"></span><div><div class="e-name">Main Auditorium</div><div class="e-time">09:00 – 11:00</div></div></div>
+            <div class="cw-event"><span class="cw-bar b2"></span><div><div class="e-name">Seminar Room 301</div><div class="e-time">14:15 – 15:00</div></div></div>
+            <div class="cw-event"><span class="cw-bar b3"></span><div><div class="e-name">Strength Gym</div><div class="e-time">17:00 – 18:00</div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -755,27 +770,6 @@
     }, {threshold:0.3});
     io.observe(st);
   })();
-
-  /* admin calendar */
-  var cal = document.getElementById('cal');
-  var days = ["Mon","Tue","Wed","Thu","Fri"];
-  var rows = ["9AM","11AM","1PM","3PM","5PM","7PM"];
-  var heat = [[1,2,1,3,0],[2,3,2,3,1],[3,3,1,2,2],[1,2,3,3,1],[2,3,3,2,-1],[0,1,2,1,-1]];
-  var top = document.createElement('div');
-  top.className = "cal-top";
-  top.innerHTML = "<div></div>" + days.map(function(d){ return "<div>"+d+"</div>"; }).join("");
-  cal.appendChild(top);
-  rows.forEach(function(r, ri){
-    var row = document.createElement('div');
-    row.className = "cal-row";
-    var html = '<div class="t">'+r+'</div>';
-    heat[ri].forEach(function(v){
-      var cls = v === -1 ? "empty" : (v === 0 ? "" : "l"+v);
-      html += '<div class="cell '+cls+'"></div>';
-    });
-    row.innerHTML = html;
-    cal.appendChild(row);
-  });
 
   /* FAQ */
   var faqs = [
