@@ -115,7 +115,7 @@
   .point-list.on-dark p{color:#AEB9CC;}
 
   /* ---------- HORIZONTAL ACCORDION ---------- */
-  .accordion{display:flex;gap:10px;height:280px;width:100%;}
+  .accordion{display:flex;gap:10px;height:360px;width:100%;}
   .apanel{position:relative;flex:1 1 0;min-width:150px;border-radius:14px;overflow:hidden;cursor:pointer;
     background:linear-gradient(165deg,#2C7BFF 0%, #0F52CF 100%);
     box-shadow:0 22px 44px -26px rgba(0,0,0,.65);
@@ -138,6 +138,11 @@
   .detail .cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#CFE2FF;background:rgba(255,255,255,.12);padding:5px 10px;border-radius:999px;}
   .detail .dname{font-family:var(--font-ui);font-weight:800;font-size:22px;line-height:1.15;color:#fff;letter-spacing:-0.01em;}
   .detail .dmeta{font-size:13px;color:#CFE2FF;margin-top:6px;line-height:1.5;}
+  .detail .a-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 10px;}
+  .detail .a-slot{font-family:var(--font-mono);font-size:11px;text-align:center;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EAF1FF;}
+  .detail .a-slot.off{opacity:.4;text-decoration:line-through;}
+  .detail .a-slot.sel{background:#fff;color:#1E70FF;border-color:#fff;font-weight:600;}
+  .detail .a-field{font-size:12.5px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 11px;margin-bottom:7px;}
   .detail .d-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .detail .dslots .n{font-family:var(--font-ui);font-weight:800;font-size:30px;color:#fff;line-height:1;}
   .detail .dslots .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#CFE2FF;display:block;margin-top:4px;}
@@ -676,7 +681,10 @@
         '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
         '<div class="detail">'+
           '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+s.tag+'</div></div>'+
-          '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div></div>'+
+          '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div>'+
+            '<div class="a-slots"><span class="a-slot">15:00</span><span class="a-slot off">16:00</span><span class="a-slot sel">17:00</span><span class="a-slot">18:00</span><span class="a-slot">19:00</span><span class="a-slot">20:00</span></div>'+
+            '<div class="a-field">What is the event for?</div>'+
+            '<div class="a-field">Add attendees</div></div>'+
           '<div class="d-foot"><div class="dslots"><span class="n">'+s.slots+'</span><span class="l">slots left today</span></div><a class="book" href="#">Book this space</a></div>'+
         '</div>';
       function activate(){
