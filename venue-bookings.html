@@ -124,6 +124,12 @@
   .apanel.active{flex-grow:3;background:linear-gradient(165deg,#1E70FF 0%, #0B3B9C 100%);}
   .apanel .spine{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;opacity:1;transition:opacity .3s ease;}
   .apanel.active .spine{opacity:0;pointer-events:none;}
+  .spine-top{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .ptag{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .ptag.free{color:#CFE2FF;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);}
+  .ptag.paid{color:#1A2540;background:#FFD37A;border:1px solid #FFD37A;font-weight:600;}
+  .d-tags{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .detail .dprice{font-family:var(--font-ui);font-weight:600;font-size:13px;color:#FFE1A6;margin-top:8px;}
   .spine .pic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#fff;}
   .spine .pic svg{width:20px;height:20px;}
   .spine .vname{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:#fff;white-space:nowrap;letter-spacing:.01em;text-align:center;padding:0 8px;}
@@ -697,10 +703,10 @@
 
   // curated mix shown in the hero accordion
   var featured = [
-    {name:"Basketball Court A", block:"Sports Complex",  cap:30,  hours:"6 AM to 10 PM", slots:7, icon:"ball",  tag:"Sports"},
-    {name:"Main Auditorium",    block:"Central Block",   cap:450, hours:"9 AM to 10 PM", slots:2, icon:"audi",  tag:"Auditorium"},
-    {name:"Music Room",         block:"Arts Centre",     cap:15,  hours:"8 AM to 9 PM",  slots:5, icon:"music", tag:"Music"},
-    {name:"Innovation Lab",     block:"Science Block",   cap:24,  hours:"8 AM to 11 PM", slots:8, icon:"lab",   tag:"Lab"}
+    {name:"Basketball Court A", block:"Sports Complex",  cap:30,  hours:"6 AM to 10 PM", slots:7, icon:"ball",  tag:"Sports",     paid:false},
+    {name:"Main Auditorium",    block:"Central Block",   cap:450, hours:"9 AM to 10 PM", slots:2, icon:"audi",  tag:"Auditorium", paid:false},
+    {name:"Music Room",         block:"Arts Centre",     cap:15,  hours:"8 AM to 9 PM",  slots:5, icon:"music", tag:"Music",      paid:false},
+    {name:"Innovation Lab",     block:"Science Block",   cap:24,  hours:"8 AM to 11 PM", slots:8, icon:"lab",   tag:"Lab",        paid:true, price:"From ₹500 / hour"}
   ];
 
   var accEl = document.getElementById('accordion');
@@ -710,11 +716,13 @@
       var hours = s.hours;
       var el = document.createElement('div');
       el.className = "apanel" + (i === 0 ? " active" : "");
+      var ptag = '<span class="ptag '+(s.paid?'paid':'free')+'">'+(s.paid?'Paid':'Free')+'</span>';
       el.innerHTML =
-        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
+        '<div class="spine"><div class="spine-top"><div class="pic">'+icons[s.icon]+'</div>'+ptag+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
         '<div class="detail">'+
-          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+s.tag+'</div></div>'+
+          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="d-tags"><span class="cat">'+s.tag+'</span>'+ptag+'</div></div>'+
           '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div>'+
+            (s.paid?'<div class="dprice">'+s.price+'</div>':'')+
             '<div class="a-slots"><span class="a-slot">15:00</span><span class="a-slot off">16:00</span><span class="a-slot sel">17:00</span><span class="a-slot">18:00</span><span class="a-slot">19:00</span><span class="a-slot">20:00</span></div>'+
             '<div class="a-field">What is the event for?</div>'+
             '<div class="a-field">Add attendees</div></div>'+
