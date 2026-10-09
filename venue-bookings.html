@@ -414,11 +414,14 @@
   .punch{background:linear-gradient(160deg,var(--ink-2),var(--ink-deep));color:var(--warm-white);padding:80px 0;}
   .punch .wrap{max-width:900px;text-align:center;}
   .punch h2{font-weight:800;font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-0.025em;color:#fff;margin:14px 0 0;text-wrap:balance;}
-  .punch h2 .serif{color:#8FC4FF;}
-  .punch-stage{position:relative;}
-  .punch-stage.particles #punchText{opacity:0;position:absolute;inset:0;pointer-events:none;}
-  #punchCanvas{display:none;width:100%;height:150px;}
-  .punch-stage.particles #punchCanvas{display:block;}
+  .punch .punch-head, .punch .punch-head .serif{
+    background:linear-gradient(110deg, #FFFFFF 0%, #CFE2FF 22%, #8FC4FF 42%, #4089FF 60%, #CFE2FF 80%, #FFFFFF 100%);
+    background-size:240% auto;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    animation:punchShine 7s linear infinite;}
+  @keyframes punchShine{to{background-position:240% center;}}
+  @media (prefers-reduced-motion: reduce){.punch .punch-head, .punch .punch-head .serif{animation:none;}}
 
   /* ---------- FAQ ---------- */
   .faq-list{max-width:820px;display:flex;flex-direction:column;gap:12px;}
@@ -608,10 +611,7 @@
 <section class="punch">
   <div class="wrap">
     <span class="eyebrow on-dark" style="justify-content:center;"><span class="dot"></span>Every space, one place</span>
-    <div class="punch-stage">
-      <canvas id="punchCanvas" aria-hidden="true"></canvas>
-      <h2 id="punchText">One&nbsp;list. One&nbsp;calendar. <span class="serif">Every&nbsp;booking.</span></h2>
-    </div>
+    <h2 class="punch-head">One list. One calendar. <span class="serif">Every booking.</span></h2>
   </div>
 </section>
 
@@ -868,69 +868,6 @@
     }
     size(); tick();
     window.addEventListener('resize', size);
-  })();
-
-  /* ---------- PARTICLE TEXT (punchline) ---------- */
-  (function punchParticles(){
-    var cv = document.getElementById('punchCanvas');
-    var stage = document.querySelector('.punch-stage');
-    if(!cv || !stage || reduce) return;
-    var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio||1, 2);
-    var W, H, targets = [], parts = [], raf, started = false;
-    var line1 = "One list. One calendar.", line2 = "Every booking.";
-    function build(){
-      var r = cv.parentElement.getBoundingClientRect();
-      W = r.width; H = 150;
-      cv.width = W*dpr; cv.height = H*dpr; cv.style.height = H+"px";
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      // draw text offscreen-ish to sample pixels
-      ctx.clearRect(0,0,W,H);
-      var fs = Math.max(24, Math.min(54, W/13));
-      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#fff";
-      ctx.font="800 "+fs+"px Inter, sans-serif";
-      ctx.fillText(line1, W/2, H*0.36);
-      ctx.font="italic 400 "+fs+"px 'IBM Plex Serif', serif";
-      ctx.fillText(line2, W/2, H*0.72);
-      var img = ctx.getImageData(0,0,W*dpr,H*dpr).data;
-      ctx.clearRect(0,0,W,H);
-      targets = [];
-      var gap = 4;
-      for(var y=0;y<H;y+=gap){
-        for(var x=0;x<W;x+=gap){
-          var idx = ((Math.floor(y*dpr))*(W*dpr) + Math.floor(x*dpr))*4;
-          if(img[idx+3] > 128){
-            targets.push({x:x, y:y, blue: Math.random()<0.5});
-          }
-        }
-      }
-      parts = targets.map(function(t){
-        return {x:Math.random()*W, y:Math.random()*H, tx:t.x, ty:t.y, blue:t.blue};
-      });
-    }
-    function tick(){
-      ctx.clearRect(0,0,W,H);
-      for(var i=0;i<parts.length;i++){
-        var p = parts[i];
-        p.x += (p.tx - p.x)*0.08;
-        p.y += (p.ty - p.y)*0.08;
-        ctx.fillStyle = p.blue ? 'rgba(143,196,255,0.95)' : 'rgba(255,255,255,0.92)';
-        ctx.fillRect(p.x, p.y, 1.8, 1.8);
-      }
-      raf = requestAnimationFrame(tick);
-    }
-    function start(){
-      if(started) return; started = true;
-      stage.classList.add('particles');
-      build(); tick();
-    }
-    // kick off when scrolled into view
-    if('IntersectionObserver' in window){
-      var io = new IntersectionObserver(function(es){
-        es.forEach(function(e){ if(e.isIntersecting){ start(); io.disconnect(); } });
-      }, {threshold:0.4});
-      io.observe(stage);
-    } else { start(); }
-    window.addEventListener('resize', function(){ if(started){ cancelAnimationFrame(raf); build(); tick(); } });
   })();
 
   /* mobile nav */
