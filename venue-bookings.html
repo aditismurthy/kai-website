@@ -352,10 +352,10 @@
     opacity:0;transform:translateY(16px);transition:opacity .7s ease .15s, transform .7s cubic-bezier(.2,.75,.2,1) .15s;}
   .stage-col.revealed .mb-card{opacity:1;transform:none;}
   .mb-sub{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:16px;}
-  .mb-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .mb-list{display:grid;grid-template-columns:1fr;gap:16px;}
   .mb-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:#FBFBFD;}
-  .mb-thumb{height:86px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;color:#fff;}
-  .mb-thumb svg{width:34px;height:34px;}
+  .mb-thumb{height:150px;border-radius:10px;overflow:hidden;margin-bottom:14px;color:#fff;}
+  .mb-thumb svg{width:100%;height:100%;display:block;}
   .mb-thumb.podcast{background:linear-gradient(135deg,#1E70FF,#0FA8D6);}
   .mb-thumb.audi{background:linear-gradient(135deg,#2B3650,#5A6B86);}
   .mbi-name{font-family:var(--font-ui);font-weight:700;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -727,7 +727,20 @@
           <div class="mb-list">
 
             <div class="mb-item">
-              <div class="mb-thumb podcast"><svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="#fff" stroke-width="1.6"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+              <div class="mb-thumb podcast"><svg viewBox="0 0 400 150" fill="none" preserveAspectRatio="xMidYMid slice">
+                <defs><pattern id="foamP" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff" opacity="0.10"/></pattern></defs>
+                <rect x="0" y="0" width="400" height="104" fill="url(#foamP)"/>
+                <rect x="20" y="118" width="360" height="9" rx="3" fill="#fff" opacity="0.9"/>
+                <g opacity="0.82" fill="#fff"><rect x="282" y="88" width="62" height="30" rx="2"/><rect x="276" y="118" width="74" height="4" rx="2"/></g>
+                <path d="M72 10 L72 54 L150 82" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+                <rect x="139" y="66" width="22" height="48" rx="11" fill="#fff"/>
+                <g stroke="#2C7BFF" stroke-width="1.4" opacity="0.5"><line x1="144" y1="75" x2="156" y2="75"/><line x1="144" y1="81" x2="156" y2="81"/><line x1="144" y1="87" x2="156" y2="87"/></g>
+                <circle cx="192" cy="90" r="20" stroke="#fff" stroke-width="2.4" opacity="0.6"/>
+                <line x1="172" y1="90" x2="161" y2="94" stroke="#fff" stroke-width="2" opacity="0.6"/>
+                <path d="M250 66 a34 34 0 0 1 68 0" stroke="#fff" stroke-width="4" fill="none" opacity="0.8"/>
+                <rect x="244" y="62" width="14" height="32" rx="6" fill="#fff" opacity="0.9"/>
+                <rect x="310" y="62" width="14" height="32" rx="6" fill="#fff" opacity="0.9"/>
+              </svg></div>
               <div class="mbi-name">Podcast Room <span class="mb-paid">Paid</span></div>
               <div class="mbi-when">5:00–6:00 PM</div>
               <div class="mbi-rows">
@@ -737,7 +750,20 @@
             </div>
 
             <div class="mb-item">
-              <div class="mb-thumb audi"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="8" rx="1" stroke="#fff" stroke-width="1.6"/><path d="M4 19c2.6-2.2 13.4-2.2 16 0M8 19v2.4M16 19v2.4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+              <div class="mb-thumb audi"><svg viewBox="0 0 400 150" fill="none" preserveAspectRatio="xMidYMid slice">
+                <rect x="118" y="14" width="164" height="56" rx="4" fill="#fff" opacity="0.22"/>
+                <rect x="118" y="14" width="164" height="56" rx="4" stroke="#fff" stroke-opacity="0.5" stroke-width="2"/>
+                <rect x="68" y="80" width="264" height="6" rx="2" fill="#fff" opacity="0.55"/>
+                <g fill="#fff">
+                  <rect x="142" y="92"  width="116" height="12" rx="6" opacity="0.85"/>
+                  <rect x="118" y="110" width="164" height="12" rx="6" opacity="0.72"/>
+                  <rect x="92"  y="128" width="216" height="12" rx="6" opacity="0.58"/>
+                  <rect x="66"  y="146" width="268" height="12" rx="6" opacity="0.44"/>
+                </g>
+                <g stroke="#2B3650" stroke-width="2" opacity="0.5">
+                  <line x1="172" y1="92" x2="172" y2="158"/><line x1="200" y1="92" x2="200" y2="158"/><line x1="228" y1="92" x2="228" y2="158"/>
+                </g>
+              </svg></div>
               <div class="mbi-name">Main Auditorium <span class="mb-unpaid">Unpaid</span></div>
               <div class="mbi-when">2:00–4:00 PM</div>
               <div class="mbi-rows">
