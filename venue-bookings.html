@@ -1041,13 +1041,11 @@
       var hours = s.hours;
       var el = document.createElement('div');
       el.className = "apanel" + (i === 0 ? " active" : "");
-      var ptag = '<span class="ptag '+(s.paid?'paid':'free')+'">'+(s.paid?'Paid':'Free')+'</span>';
       el.innerHTML =
-        '<div class="spine"><div class="spine-top"><div class="pic">'+icons[s.icon]+'</div>'+ptag+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
+        '<div class="spine"><div class="pic">'+icons[s.icon]+'</div><div class="vname">'+s.name+'</div><div class="vslots"><span class="vn">'+s.slots+'</span><span class="vlbl">slots<br>left</span></div></div>'+
         '<div class="detail">'+
-          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="d-tags"><span class="cat">'+s.tag+'</span>'+ptag+'</div></div>'+
+          '<div class="d-top"><div class="pic">'+icons[s.icon]+'</div><div class="cat">'+s.tag+'</div></div>'+
           '<div class="d-mid"><div class="dname">'+s.name+'</div><div class="dmeta">'+s.block+' · Holds '+s.cap+' · '+hours+'</div>'+
-            (s.paid?'<div class="dprice">'+s.price+'</div>':'')+
             '<div class="a-slots"><span class="a-slot">15:00</span><span class="a-slot off">16:00</span><span class="a-slot sel">17:00</span><span class="a-slot">18:00</span><span class="a-slot">19:00</span><span class="a-slot">20:00</span></div>'+
             '<div class="a-field">What is the event for?</div>'+
             '<div class="a-field">Add attendees</div></div>'+
