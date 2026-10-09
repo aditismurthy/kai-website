@@ -723,7 +723,10 @@
     var reduceP = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduceP || !('IntersectionObserver' in window)){ wp.classList.add('in'); return; }
     var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ wp.classList.add('in'); io.unobserve(wp); } });
+      entries.forEach(function(e){
+        if(e.isIntersecting){ wp.classList.add('in'); }
+        else { wp.classList.remove('in'); }   // reset so it replays next time
+      });
     }, {threshold:0.3});
     io.observe(wp);
   })();
