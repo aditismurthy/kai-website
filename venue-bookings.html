@@ -476,6 +476,47 @@
   .cta .btn-ghost-dark{border-color:rgba(255,255,255,.5);color:#fff;}
   .cta .btn-ghost-dark:hover{border-color:#fff;background:rgba(255,255,255,.1);color:#fff;}
 
+  /* ---------- RESOURCE UTILISATION ---------- */
+  .util-panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,34px);box-shadow:0 24px 60px -34px rgba(26,37,64,.3);}
+  .util-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px;}
+  .util-stat{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#FBFBFD;}
+  .util-stat .us-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:9px;}
+  .util-stat .us-value{font-family:var(--font-ui);font-weight:800;font-size:clamp(20px,2.4vw,27px);letter-spacing:-0.02em;color:var(--ink);line-height:1.05;}
+  .util-stat .us-sub{font-size:12px;color:var(--slate);margin-top:6px;}
+  .util-group-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin:2px 0 12px;}
+  .util-group + .util-group{margin-top:24px;}
+  .util-rows{display:grid;gap:13px;}
+  .util-row{display:grid;grid-template-columns:150px 1fr 46px 86px 112px;gap:16px;align-items:center;}
+  .ur-name{font-family:var(--font-ui);font-weight:700;font-size:14px;color:var(--ink);}
+  .ur-track{height:10px;border-radius:999px;background:#EDF0F5;overflow:hidden;}
+  .ur-fill{height:100%;border-radius:999px;width:0;transition:width 1.1s cubic-bezier(.2,.75,.2,1);}
+  .util-panel.in .ur-fill{width:var(--w);}
+  .ur-fill.f-promote{background:linear-gradient(90deg,#1F9254,#38B06E);}
+  .ur-fill.f-steady{background:linear-gradient(90deg,var(--kai-signal),var(--cyan));}
+  .ur-fill.f-review{background:linear-gradient(90deg,#E0962E,#F0B65C);}
+  .ur-fill.f-convert{background:linear-gradient(90deg,#8794A8,#AAB5C6);}
+  .ur-pct{font-family:var(--font-ui);font-weight:700;font-size:13px;color:var(--ink);text-align:right;}
+  .ur-rev{font-family:var(--font-mono);font-size:12px;color:var(--slate);text-align:right;}
+  .ur-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;font-weight:500;padding:5px 0;border-radius:999px;text-align:center;border:1px solid;}
+  .tag-promote{color:var(--green);background:var(--green-fill);border-color:var(--green-line);}
+  .tag-steady{color:var(--kai-signal);background:var(--kai-tint);border-color:var(--kai-tint-line);}
+  .tag-review{color:#9A6B16;background:#FBF1DD;border-color:#F0DCB3;}
+  .tag-convert{color:#64718A;background:#F1F3F7;border-color:#DDE3EC;}
+  .util-insights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px;padding-top:26px;border-top:1px solid var(--line);}
+  .ui-card{border:1px solid var(--line);border-left-width:3px;border-radius:12px;padding:16px 18px;background:#FBFBFD;}
+  .ui-card.i-expand{border-left-color:var(--green);}
+  .ui-card.i-promote{border-left-color:var(--kai-signal);}
+  .ui-card.i-convert{border-left-color:#8794A8;}
+  .ui-card h4{font-family:var(--font-ui);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);margin:0 0 7px;}
+  .ui-card p{margin:0;font-size:13px;color:var(--slate);line-height:1.5;}
+  @media(max-width:820px){
+    .util-stats{grid-template-columns:1fr;}
+    .util-insights{grid-template-columns:1fr;}
+    .util-row{grid-template-columns:120px 1fr 40px;grid-auto-rows:min-content;row-gap:6px;}
+    .ur-rev{grid-column:2 / 4;text-align:left;}
+    .ur-tag{grid-column:1 / 2;}
+  }
+
   /* ---------- FOOTER ---------- */
   footer{background:var(--ink-deep);color:var(--warm-white);padding:28px 0 30px;}
   .foot-top{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:center;}
@@ -811,6 +852,106 @@
   </div>
 </section>
 
+<!-- ============ RESOURCE UTILISATION ============ -->
+<section class="block" style="background:linear-gradient(to bottom, #E4EEFF 0%, #EEF2F8 46%, #FFFFFF 100%);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">KEN42 INSIGHTS</span>
+      <h2>Know which venues <span class="serif">earn their keep.</span></h2>
+      <p>Every booking is a data point. KAI turns them into utilisation and revenue in one view, so you can grow the spaces that work and rethink the ones that sit idle.</p>
+    </div>
+
+    <div class="util-panel" id="utilPanel">
+      <div class="util-stats">
+        <div class="util-stat">
+          <div class="us-label">Average utilisation</div>
+          <div class="us-value">56%</div>
+          <div class="us-sub">Across 6 bookable venues this term</div>
+        </div>
+        <div class="util-stat">
+          <div class="us-label">Top earner</div>
+          <div class="us-value">Main Auditorium</div>
+          <div class="us-sub">₹4.2L generated this term</div>
+        </div>
+        <div class="util-stat">
+          <div class="us-label">Idle capacity</div>
+          <div class="us-value">2 venues</div>
+          <div class="us-sub">Booked under 25% of the time</div>
+        </div>
+      </div>
+
+      <div class="util-group">
+        <div class="util-group-label">High demand</div>
+        <div class="util-rows">
+          <div class="util-row">
+            <span class="ur-name">Main Auditorium</span>
+            <span class="ur-track"><span class="ur-fill f-promote" style="--w:92%;"></span></span>
+            <span class="ur-pct">92%</span>
+            <span class="ur-rev">₹4.2L</span>
+            <span class="ur-tag tag-promote">Expand</span>
+          </div>
+          <div class="util-row">
+            <span class="ur-name">Strength Gym</span>
+            <span class="ur-track"><span class="ur-fill f-promote" style="--w:81%;"></span></span>
+            <span class="ur-pct">81%</span>
+            <span class="ur-rev">₹1.8L</span>
+            <span class="ur-tag tag-promote">Expand</span>
+          </div>
+          <div class="util-row">
+            <span class="ur-name">Podcast Room</span>
+            <span class="ur-track"><span class="ur-fill f-steady" style="--w:74%;"></span></span>
+            <span class="ur-pct">74%</span>
+            <span class="ur-rev">₹1.1L</span>
+            <span class="ur-tag tag-steady">Promote</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="util-group">
+        <div class="util-group-label">Underused</div>
+        <div class="util-rows">
+          <div class="util-row">
+            <span class="ur-name">Seminar Room 301</span>
+            <span class="ur-track"><span class="ur-fill f-review" style="--w:46%;"></span></span>
+            <span class="ur-pct">46%</span>
+            <span class="ur-rev">₹0.6L</span>
+            <span class="ur-tag tag-review">Review</span>
+          </div>
+          <div class="util-row">
+            <span class="ur-name">Music Room</span>
+            <span class="ur-track"><span class="ur-fill f-convert" style="--w:23%;"></span></span>
+            <span class="ur-pct">23%</span>
+            <span class="ur-rev">₹0.2L</span>
+            <span class="ur-tag tag-convert">Convert</span>
+          </div>
+          <div class="util-row">
+            <span class="ur-name">Chemistry Lab</span>
+            <span class="ur-track"><span class="ur-fill f-convert" style="--w:18%;"></span></span>
+            <span class="ur-pct">18%</span>
+            <span class="ur-rev">₹0.1L</span>
+            <span class="ur-tag tag-convert">Convert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="util-insights">
+        <div class="ui-card i-expand">
+          <h4>Expand</h4>
+          <p>The Main Auditorium and Strength Gym run near capacity. Open more slots or add similar spaces to capture the demand you are turning away.</p>
+        </div>
+        <div class="ui-card i-promote">
+          <h4>Promote</h4>
+          <p>The Podcast Room has room to grow. Feature it on the booking homepage to lift bookings and the revenue that follows.</p>
+        </div>
+        <div class="ui-card i-convert">
+          <h4>Convert</h4>
+          <p>The Music Room and Chemistry Lab sit idle. Repurpose or retire them to free up budget and floor space for venues that pay their way.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FAQ ============ -->
 <a id="faq"></a>
 <section class="block white">
@@ -1122,6 +1263,21 @@
     io.observe(wp);
   })();
 
+
+  /* resource utilisation: bars grow in when the panel scrolls into view */
+  (function revealUtil(){
+    var panel = document.getElementById('utilPanel');
+    if(!panel) return;
+    var reduceU = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceU || !('IntersectionObserver' in window)){ panel.classList.add('in'); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ panel.classList.add('in'); }
+        else { panel.classList.remove('in'); }
+      });
+    }, {threshold:0.25});
+    io.observe(panel);
+  })();
 
   /* calendar widget: live date + IST clock + availability grid */
   (function calWidget(){
