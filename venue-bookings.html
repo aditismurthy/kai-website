@@ -1071,9 +1071,9 @@
   </div>
 </section>
 
-<!-- ============ FAQ ============ -->
+<!-- ============ FAQ (hidden by default, kept in DOM for SEO, revealed via button) ============ -->
 <a id="faq"></a>
-<section class="block white">
+<section class="block white" id="faqSection" hidden>
   <div class="wrap">
     <div class="sec-head" style="margin-bottom:36px;">
       <span class="eyebrow"><span class="dot"></span>Questions</span>
@@ -1093,6 +1093,7 @@
     <p>See how your campus can discover, book and manage every space from a single view, with the rules you set.</p>
     <div class="hero-actions">
       <a href="#" class="btn btn-primary">Talk to us →</a>
+      <button type="button" class="btn btn-ghost-dark" id="faqToggle" aria-expanded="false" aria-controls="faqSection">FAQs</button>
       <a href="#top" class="btn btn-ghost-dark">Back to top</a>
     </div>
   </div>
@@ -1382,6 +1383,26 @@
     io.observe(wp);
   })();
 
+
+  /* FAQ stays in the DOM for SEO but only shows when the FAQs button is clicked */
+  (function faqToggle(){
+    var btn = document.getElementById('faqToggle'),
+        sec = document.getElementById('faqSection');
+    if(!btn || !sec) return;
+    btn.addEventListener('click', function(){
+      var open = sec.hasAttribute('hidden');
+      if(open){
+        sec.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded','true');
+        btn.textContent = 'Hide FAQs';
+        sec.scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        sec.setAttribute('hidden','');
+        btn.setAttribute('aria-expanded','false');
+        btn.textContent = 'FAQs';
+      }
+    });
+  })();
 
   /* resource utilisation: bars grow in when the panel scrolls into view */
   (function revealUtil(){
