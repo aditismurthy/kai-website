@@ -754,6 +754,20 @@
   .sync-card p{margin:0;font-size:13.5px;color:var(--slate);line-height:1.5;}
   @media(max-width:820px){.sync-grid{grid-template-columns:1fr;}}
 
+  /* ===== reactbits-style effects (ported to vanilla) ===== */
+  /* SplitText: hero headline words blur + rise in */
+  .hero h1 .w{display:inline-block;opacity:0;transform:translateY(16px);filter:blur(7px);
+    transition:opacity .55s ease, transform .55s cubic-bezier(.2,.75,.2,1), filter .55s ease;}
+  .hero h1.in .w{opacity:1;transform:none;filter:none;}
+  @media (prefers-reduced-motion: reduce){.hero h1 .w{opacity:1;transform:none;filter:none;transition:none;}}
+
+  /* SpotlightCard: cursor-following glow on card grids */
+  .spot{position:relative;}
+  .spot::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:0;pointer-events:none;opacity:0;
+    transition:opacity .3s ease;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(30,112,255,.16), transparent 62%);}
+  .spot:hover::after{opacity:1;}
+  .spot > *{position:relative;z-index:1;}
+
   /* ---------- FOOTER ---------- */
   footer{background:var(--ink-deep);color:var(--warm-white);padding:28px 0 30px;}
   .foot-top{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:center;}
@@ -1046,10 +1060,10 @@
           <span class="gc-pill"><i></i>All terms</span>
         </div>
         <div class="gc-stats">
-          <div class="gc-stat"><span class="gs-val">6</span><span class="gs-lab">Courses assigned</span></div>
-          <div class="gc-stat"><span class="gs-val">4</span><span class="gs-lab">In progress</span></div>
-          <div class="gc-stat"><span class="gs-val">71%</span><span class="gs-lab">Avg quiz attempt</span></div>
-          <div class="gc-stat"><span class="gs-val">18</span><span class="gs-lab">Assignments set</span></div>
+          <div class="gc-stat"><span class="gs-val" data-count="6">6</span><span class="gs-lab">Courses assigned</span></div>
+          <div class="gc-stat"><span class="gs-val" data-count="4">4</span><span class="gs-lab">In progress</span></div>
+          <div class="gc-stat"><span class="gs-val" data-count="71" data-suffix="%">71%</span><span class="gs-lab">Avg quiz attempt</span></div>
+          <div class="gc-stat"><span class="gs-val" data-count="18">18</span><span class="gs-lab">Assignments set</span></div>
         </div>
         <div class="gc-meter">
           <div class="gm-head"><span>Release tracking</span><span>142 / 168 released</span></div>
@@ -1087,7 +1101,7 @@
         <div class="cc-top"><span class="cc-code">CS301</span><span class="cc-state live">In progress</span></div>
         <h3>Data Structures &amp; Algorithms</h3>
         <div class="cc-meta"><span>4 credits</span><span>Blended</span><span>Section A</span></div>
-        <div class="cc-row"><span>Students enrolled</span><b>128</b></div>
+        <div class="cc-row"><span>Students enrolled</span><b data-count="128">128</b></div>
         <div class="cc-cover"><div class="ccv-head"><span>Coverage so far</span><span>68%</span></div><div class="ccv-track"><span style="--w:68%;"></span></div></div>
         <div class="cc-next">Next deadline · Assignment 4, in 3 days</div>
         <div class="cc-counts"><span>12 quizzes</span><span>8 assignments</span><span>5 threads</span></div>
@@ -1096,7 +1110,7 @@
         <div class="cc-top"><span class="cc-code">EE210</span><span class="cc-state live">In progress</span></div>
         <h3>Signals &amp; Systems</h3>
         <div class="cc-meta"><span>3 credits</span><span>Live</span><span>Section B</span></div>
-        <div class="cc-row"><span>Students enrolled</span><b>86</b></div>
+        <div class="cc-row"><span>Students enrolled</span><b data-count="86">86</b></div>
         <div class="cc-cover"><div class="ccv-head"><span>Coverage so far</span><span>54%</span></div><div class="ccv-track"><span style="--w:54%;"></span></div></div>
         <div class="cc-next">Next deadline · Quiz 6, in 6 days</div>
         <div class="cc-counts"><span>9 quizzes</span><span>5 assignments</span><span>3 threads</span></div>
@@ -1105,7 +1119,7 @@
         <div class="cc-top"><span class="cc-code">HS140</span><span class="cc-state up">Upcoming</span></div>
         <h3>Technical Communication</h3>
         <div class="cc-meta"><span>2 credits</span><span>Recorded</span><span>Section A</span></div>
-        <div class="cc-row"><span>Students enrolled</span><b>54</b></div>
+        <div class="cc-row"><span>Students enrolled</span><b data-count="54">54</b></div>
         <div class="cc-cover"><div class="ccv-head"><span>Coverage so far</span><span>0%</span></div><div class="ccv-track"><span style="--w:4%;"></span></div></div>
         <div class="cc-next">Starts · Monday next week</div>
         <div class="cc-counts"><span>Question bank ready</span><span>Syllabus set</span></div>
@@ -1691,6 +1705,70 @@
     });
     faqList.appendChild(item);
   });
+
+  /* ===== reactbits-style: SplitText on the hero headline ===== */
+  (function splitText(){
+    var h1 = document.querySelector('.hero h1');
+    if(!h1) return;
+    var reduceS = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var i = 0, frag = document.createDocumentFragment();
+    Array.prototype.slice.call(h1.childNodes).forEach(function(node){
+      if(node.nodeType === 3){ // text: split into words
+        node.textContent.split(/(\s+)/).forEach(function(tok){
+          if(tok.trim() === ""){ frag.appendChild(document.createTextNode(tok)); return; }
+          var s = document.createElement('span'); s.className = 'w'; s.textContent = tok;
+          s.style.transitionDelay = (i*0.045) + 's'; i++;
+          frag.appendChild(s);
+        });
+      } else if(node.nodeType === 1){ // keep the serif span as one animated unit
+        node.classList.add('w'); node.style.transitionDelay = (i*0.045) + 's'; i++;
+        frag.appendChild(node);
+      }
+    });
+    h1.innerHTML = ''; h1.appendChild(frag);
+    if(reduceS){ h1.classList.add('in'); return; }
+    requestAnimationFrame(function(){ setTimeout(function(){ h1.classList.add('in'); }, 120); });
+  })();
+
+  /* ===== reactbits-style: CountUp on stat numbers ===== */
+  (function countUp(){
+    var els = document.querySelectorAll('[data-count]');
+    if(!els.length) return;
+    var reduceC = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function run(el){
+      var target = parseFloat(el.getAttribute('data-count')) || 0,
+          suffix = el.getAttribute('data-suffix') || '',
+          dur = 1100, t0 = null;
+      if(reduceC){ el.textContent = target + suffix; return; }
+      function step(ts){
+        if(!t0) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1),
+            eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    if(!('IntersectionObserver' in window)){ els.forEach(run); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ run(e.target); io.unobserve(e.target); } });
+    }, {threshold:0.6});
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  /* ===== reactbits-style: SpotlightCard glow following the cursor ===== */
+  (function spotlight(){
+    var sel = '.feat-card, .eco-card, .course-card, .flow-card, .step-card, .sync-card, .access-card';
+    var cards = document.querySelectorAll(sel);
+    cards.forEach(function(c){
+      c.classList.add('spot');
+      c.addEventListener('mousemove', function(e){
+        var r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  })();
 
   /* ---------- PARTICLE FIELD (hero + finale backdrops) ---------- */
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
