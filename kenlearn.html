@@ -581,9 +581,16 @@
   .split2 h2 .serif{color:var(--kai-signal);}
   .split2 .lead{font-size:16px;color:var(--slate);margin:0 0 22px;}
   .mini-list{list-style:none;padding:0;margin:0;display:grid;gap:14px;}
-  .mini-list li{position:relative;padding-left:20px;font-size:14.5px;color:var(--slate);line-height:1.5;}
+  .mini-list li{position:relative;padding-left:22px;font-size:14.5px;color:var(--slate);line-height:1.5;
+    opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.75,.2,1);}
+  .mini-list.in li{opacity:1;transform:none;}
+  .mini-list.in li:nth-child(1){transition-delay:.05s;}
+  .mini-list.in li:nth-child(2){transition-delay:.22s;}
+  .mini-list.in li:nth-child(3){transition-delay:.39s;}
   .mini-list li b{color:var(--ink);font-weight:700;}
-  .mini-list li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;background:var(--gradient-signal);}
+  .mini-list li::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;
+    background:var(--gradient-signal);box-shadow:0 2px 8px -2px rgba(30,112,255,.6);}
+  @media (prefers-reduced-motion: reduce){.mini-list li{opacity:1;transform:none;transition:none;}}
   @media(max-width:860px){.split2{grid-template-columns:1fr;gap:34px;}.split2.rev .copy{order:-1;}}
 
   /* flow of 3 cards: vertical, lights up one after another on scroll */
@@ -1047,9 +1054,9 @@
         <h2>A teaching dashboard scoped to <span class="serif">one term at a time.</span></h2>
         <p class="lead">A faculty member opens the platform to the term they are teaching, and every figure on the page follows that selection. Nothing has to be filtered down from an institutional view first.</p>
         <ul class="mini-list">
-          <li><b>Term scoping</b> — select a term, or hold all of them at once, and every count moves with it.</li>
-          <li><b>Release tracking</b> — a graded figure read as items released against items total, so nothing sits marked and unpublished by accident.</li>
-          <li><b>Syllabus coverage</b> — coverage against every course taught, with the course code and its status beside it.</li>
+          <li><b>Term scoping</b>: select a term, or hold all of them at once, and every count moves with it.</li>
+          <li><b>Release tracking</b>: a graded figure read as items released against items total, so nothing sits marked and unpublished by accident.</li>
+          <li><b>Syllabus coverage</b>: coverage against every course taught, with the course code and its status beside it.</li>
         </ul>
       </div>
 
@@ -1088,7 +1095,6 @@
 <section class="block light">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Courses</span>
       <h2>Courses sorted by <span class="serif">what they are doing now.</span></h2>
       <p>The teaching load is not one list. A course is running, about to run, or finished, and the grid is organised on exactly that, with search across code, type and section for anything the tabs do not narrow fast enough.</p>
     </div>
@@ -1238,16 +1244,16 @@
         <h2>Every deadline, session and forum close date <span class="serif">in one place.</span></h2>
         <p class="lead">Academic dates live in six or seven places at most institutions. Here they arrive in one calendar, typed by what they are, and a faculty member can switch off the types they are not thinking about.</p>
         <ul class="mini-list">
-          <li><b>Three views</b> — Month, Week and Schedule, with Schedule listing what is upcoming first.</li>
-          <li><b>Relative dating</b> — entries read as in 15 days or 9 days ago, so nothing has to be worked out against today.</li>
-          <li><b>Course-scoped notifications</b> — every notification carries the course it came from, so a reply is never context-free.</li>
+          <li><b>Three views</b>: Month, Week and Schedule, with Schedule listing what is upcoming first.</li>
+          <li><b>Relative dating</b>: entries read as in 15 days or 9 days ago, so nothing has to be worked out against today.</li>
+          <li><b>Course-scoped notifications</b>: every notification carries the course it came from, so a reply is never context-free.</li>
         </ul>
       </div>
 
       <div class="cal-card">
         <div class="cc-tile">
           <div class="cct-date" id="cwDate">Oct 23</div>
-          <div class="cct-ist" id="cwIst">—</div>
+          <div class="cct-ist" id="cwIst">·</div>
           <div class="cct-day" id="cwDay">Thursday</div>
           <div class="cct-week">This week</div>
         </div>
@@ -1707,6 +1713,18 @@
     });
     faqList.appendChild(item);
   });
+
+  /* mini-list bullets fade in one by one on scroll */
+  (function fadeMiniLists(){
+    var lists = document.querySelectorAll('.mini-list');
+    if(!lists.length) return;
+    var reduceM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceM || !('IntersectionObserver' in window)){ lists.forEach(function(l){ l.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } else { e.target.classList.remove('in'); } });
+    }, {threshold:0.4});
+    lists.forEach(function(l){ io.observe(l); });
+  })();
 
   /* flow cards light up blue one after another on scroll */
   (function litFlow(){
