@@ -766,6 +766,13 @@
   .sync-card p{margin:0;font-size:13.5px;color:var(--slate);line-height:1.5;}
   @media(max-width:820px){.sync-grid{grid-template-columns:1fr;}}
 
+  /* ShinyText: moving shimmer across section eyebrows */
+  .eyebrow.shiny{background:linear-gradient(90deg, var(--kai-signal) 0%, var(--kai-signal) 42%, #9ecbff 50%, var(--kai-signal) 58%, var(--kai-signal) 100%);
+    background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+    animation:eyeShine 5s linear infinite;}
+  @keyframes eyeShine{to{background-position:-220% center;}}
+  @media (prefers-reduced-motion: reduce){.eyebrow.shiny{animation:none;}}
+
   /* ===== reactbits-style effects (ported to vanilla) ===== */
   /* SplitText: hero headline words blur + rise in */
   .hero h1 .w{display:inline-block;opacity:0;transform:translateY(16px);filter:blur(7px);
@@ -988,7 +995,7 @@
 
   <div class="wrap hero-inner">
     <span class="eyebrow on-dark">KEN42 KENLEARN</span>
-    <h1>Assessment, grading and outcome attainment <span class="serif">resolve alongside the running course.</span></h1>
+    <h1>The LMS that lives on <span class="serif">the student record.</span></h1>
     <p class="standfirst">Ken42 gives an institution one academic system to teach in, assess from, and report out of.</p>
     <div class="hero-actions">
       <a href="#demo" class="btn btn-primary">Request a demo →</a>
@@ -1003,14 +1010,14 @@
       <span class="hf-arrow" aria-hidden="true"></span>
       <div class="hf-node">
         <span class="hf-tag">Coursework</span>
-        <div class="hf-title">Work is graded</div>
-        <div class="hf-sub">Against outcomes attached while you teach</div>
+        <div class="hf-title">Work gets graded</div>
+        <div class="hf-sub">Against outcomes set as you build</div>
       </div>
       <span class="hf-arrow" aria-hidden="true"></span>
       <div class="hf-node hf-dest">
         <span class="hf-tag">Examination record</span>
-        <div class="hf-title">Results settle in</div>
-        <div class="hf-sub">GPA and CGPA calculated from them</div>
+        <div class="hf-title">Results land</div>
+        <div class="hf-sub">GPA and CGPA follow</div>
       </div>
     </div>
   </div>
@@ -1033,7 +1040,7 @@
       <span class="flow-link" aria-hidden="true"></span>
       <div class="flow-card">
         <span class="fc-num">02</span>
-        <h3>Marks have one destination</h3>
+        <h3>Marks have one home</h3>
         <p>Coursework grades flow into the exam record, where GPA and CGPA come from.</p>
       </div>
       <span class="flow-link" aria-hidden="true"></span>
@@ -1140,8 +1147,8 @@
 <section class="block">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Building what sits inside</span>
-      <h2>One course that holds <span class="serif">everything the course needs.</span></h2>
+      <span class="eyebrow shiny">Building what sits inside</span>
+      <h2>One course that holds <span class="serif">everything it needs.</span></h2>
     </div>
     <div class="feat-grid">
       <div class="feat-card">
@@ -1198,7 +1205,7 @@
 <section class="block" style="background:linear-gradient(to bottom,#FFFFFF 0%, #EEF2F8 100%);">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Assessment and grading</span>
+      <span class="eyebrow shiny">Assessment and grading</span>
       <h2>Objective work grades itself, and subjective work <span class="serif">reaches the right desk.</span></h2>
       <p>Grading is two jobs. Objective questions score on submission and write straight to the record. Subjective work lands in a review queue with the rubric attached.</p>
     </div>
@@ -1240,7 +1247,7 @@
   <div class="wrap">
     <div class="split2 rev">
       <div class="copy">
-        <span class="eyebrow">Calendar and notifications</span>
+        <span class="eyebrow shiny">Calendar and notifications</span>
         <h2>Every deadline, session and forum close date <span class="serif">in one place.</span></h2>
         <p class="lead">Academic dates usually live in six or seven places. Here they sit in one calendar, typed by what they are, with the types you do not need switched off.</p>
         <ul class="mini-list">
@@ -1273,7 +1280,7 @@
 <section class="block light">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Outcomes and attainment</span>
+      <span class="eyebrow shiny">Outcomes and attainment</span>
       <h2>Map the outcome while you build the course, <span class="serif">not the week before the audit.</span></h2>
       <p>Attainment is usually rebuilt after the fact, which is why it takes weeks. Define outcomes once, attach them to the work that measures them, and calculate from submissions already in.</p>
     </div>
@@ -1294,7 +1301,7 @@
 <section class="block">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">KAI inside the course</span>
+      <span class="eyebrow shiny">KAI inside the course</span>
       <h2>An assistant trained on your syllabus <span class="serif">rather than on the internet.</span></h2>
       <p>Most platforms bolt a generic assistant onto the side. KAI is the engine the platform runs on, drafting from your content and answering from your record. You keep the final call on everything it produces.</p>
     </div>
@@ -1315,7 +1322,7 @@
 <section class="block light">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Where it connects</span>
+      <span class="eyebrow shiny">Where it connects</span>
       <h2>One module, with the rest of KenLearn <span class="serif">standing behind it.</span></h2>
       <p>Learning Management is one module, and what a course hands off to is already built. Nothing here is an integration to scope.</p>
     </div>
@@ -1334,7 +1341,7 @@
 <section class="block">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Keeping the classroom you already chose</span>
+      <span class="eyebrow shiny">Keeping the classroom you already chose</span>
       <h2>Keep the classroom your staff know, <span class="serif">still hold one record.</span></h2>
       <p>Schools on Canvas, Blackboard or Brightspace have trained hundreds of staff on them, which is reason to stay. KenLearn syncs with the one in use, so courses, enrolments, grades and progress match the record.</p>
     </div>
@@ -1363,7 +1370,7 @@
 <section class="block white" id="faqSection" hidden>
   <div class="wrap">
     <div class="sec-head" style="margin-bottom:36px;">
-      <span class="eyebrow"><span class="dot"></span>Questions</span>
+      <span class="eyebrow shiny"><span class="dot"></span>Questions</span>
       <h2>The things institutions <span class="serif">ask first.</span></h2>
       <p>Everything below is already in the page for search engines. It opens when you want it.</p>
     </div>
