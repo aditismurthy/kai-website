@@ -564,12 +564,17 @@
   /* ================= KENLEARN SECTIONS ================= */
   /* hero flow */
   .hero-flow{display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap;margin-top:44px;}
-  .hf-node{flex:1;min-width:180px;max-width:280px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 20px;
-    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-align:left;}
-  .hf-node.hf-dest{background:linear-gradient(150deg, rgba(30,112,255,.3), rgba(15,168,214,.16));border-color:rgba(143,196,255,.4);}
-  .hf-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8FC4FF;}
-  .hf-title{font-family:var(--font-ui);font-weight:700;font-size:16px;color:#fff;margin:9px 0 5px;}
-  .hf-sub{font-size:12.5px;color:#AEB9CC;line-height:1.45;}
+  .hf-node{position:relative;overflow:hidden;flex:1;min-width:190px;max-width:300px;border-radius:16px;padding:24px 22px 22px;text-align:left;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    transition:transform .25s ease, border-color .3s ease;}
+  .hf-node::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--kai-signal),var(--cyan));}
+  .hf-node::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .3s ease;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(30,112,255,.3), transparent 60%);}
+  .hf-node:hover{transform:translateY(-4px);border-color:rgba(143,196,255,.5);}
+  .hf-node:hover::after{opacity:1;}
+  .hf-node > *{position:relative;z-index:1;}
+  .hf-title{font-family:var(--font-ui);font-weight:700;font-size:20px;letter-spacing:-0.01em;color:#fff;margin:0 0 8px;}
+  .hf-sub{font-size:13px;color:#AEB9CC;line-height:1.5;}
   .hf-arrow{align-self:center;width:46px;height:2px;background:linear-gradient(90deg,rgba(143,196,255,.2),rgba(143,196,255,.7));position:relative;flex:0 0 auto;}
   .hf-arrow::after{content:"";position:absolute;right:-1px;top:-3px;border-left:7px solid rgba(143,196,255,.8);border-top:4px solid transparent;border-bottom:4px solid transparent;}
   @media(max-width:760px){.hf-arrow{width:2px;height:26px;background:linear-gradient(180deg,rgba(143,196,255,.2),rgba(143,196,255,.7));}.hf-arrow::after{right:-3px;top:auto;bottom:-1px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:7px solid rgba(143,196,255,.8);border-bottom:none;}.hero-flow{flex-direction:column;align-items:center;}.hf-node{max-width:340px;width:100%;}}
@@ -595,8 +600,12 @@
 
   /* flow of 3 cards: vertical, lights up one after another on scroll */
   .flow3{display:flex;flex-direction:column;align-items:stretch;gap:0;max-width:720px;margin:0 auto;}
-  .flow-card{width:100%;background:var(--card);border:1px solid var(--line);border-left:3px solid #CBD3E0;border-radius:16px;padding:24px 26px;box-shadow:0 20px 50px -40px rgba(26,37,64,.28);
+  .flow-card{position:relative;overflow:hidden;width:100%;background:var(--card);border:1px solid var(--line);border-left:3px solid #CBD3E0;border-radius:16px;padding:24px 26px;box-shadow:0 20px 50px -40px rgba(26,37,64,.28);
     transition:border-left-color .5s ease, box-shadow .5s ease;}
+  .flow-card::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .6s ease;
+    background:radial-gradient(460px circle at 10% 0%, rgba(30,112,255,.14), transparent 58%);}
+  .flow-card.lit::after{opacity:1;}
+  .flow-card > *{position:relative;z-index:1;}
   .flow-card .fc-num{font-family:var(--font-ui);font-weight:800;font-size:15px;color:#A9B6CC;letter-spacing:.02em;transition:color .5s ease;}
   .flow-card h3{font-family:var(--font-ui);font-weight:700;font-size:17px;letter-spacing:-0.01em;color:var(--ink);margin:10px 0 8px;}
   .flow-card p{margin:0;font-size:14px;color:var(--slate);line-height:1.5;}
@@ -1062,21 +1071,18 @@
 
     <div class="hero-flow">
       <div class="hf-node">
-        <span class="hf-tag">Registration</span>
-        <div class="hf-title">A student registers</div>
-        <div class="hf-sub">Added to a course once, by the system</div>
+        <div class="hf-title">Registration</div>
+        <div class="hf-sub">A student is added to a course once, by the system.</div>
       </div>
       <span class="hf-arrow" aria-hidden="true"></span>
       <div class="hf-node">
-        <span class="hf-tag">Coursework</span>
-        <div class="hf-title">Work gets graded</div>
-        <div class="hf-sub">Against outcomes set as you build</div>
+        <div class="hf-title">Coursework</div>
+        <div class="hf-sub">Work is graded against outcomes set as you build.</div>
       </div>
       <span class="hf-arrow" aria-hidden="true"></span>
-      <div class="hf-node hf-dest">
-        <span class="hf-tag">Examination record</span>
-        <div class="hf-title">Results land</div>
-        <div class="hf-sub">GPA and CGPA follow</div>
+      <div class="hf-node">
+        <div class="hf-title">Examination record</div>
+        <div class="hf-sub">Results land, and GPA and CGPA follow.</div>
       </div>
     </div>
   </div>
@@ -1831,7 +1837,7 @@
 
   /* ===== reactbits-style: SpotlightCard glow following the cursor ===== */
   (function spotlight(){
-    var sel = '.feat-card, .mb-tile, .course-card, .flow-card, .step-card, .access-card';
+    var sel = '.feat-card, .mb-tile, .course-card, .step-card, .access-card, .hf-node';
     var cards = document.querySelectorAll(sel);
     cards.forEach(function(c){
       c.classList.add('spot');
