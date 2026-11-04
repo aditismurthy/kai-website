@@ -1850,12 +1850,19 @@
     if(!acc) return;
     var items = Array.prototype.slice.call(acc.querySelectorAll('.acc-item'));
     function setH(it){ var b=it.querySelector('.acc-body'); b.style.maxHeight = it.classList.contains('open') ? (b.scrollHeight+'px') : null; }
+    function openOnly(it){
+      items.forEach(function(o){ o.classList.remove('open'); setH(o); });
+      it.classList.add('open'); setH(it);
+    }
     items.forEach(function(it){
       var head = it.querySelector('.acc-head');
       head.addEventListener('click', function(){
         var wasOpen = it.classList.contains('open');
         items.forEach(function(o){ o.classList.remove('open'); setH(o); });
         if(!wasOpen){ it.classList.add('open'); setH(it); }
+      });
+      it.addEventListener('mouseenter', function(){
+        if(!it.classList.contains('open')) openOnly(it);
       });
     });
     // open the first by default
