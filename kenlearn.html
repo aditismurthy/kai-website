@@ -678,7 +678,16 @@
   .cp-tab b{font-family:var(--font-mono);font-size:11px;color:#8294B2;}
   .cp-tab.active{background:var(--kai-signal);border-color:transparent;color:#fff;box-shadow:0 10px 24px -12px rgba(30,112,255,.8);}
   .cp-tab.active b{color:rgba(255,255,255,.85);}
-  .cp-search{margin-left:auto;font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:#6c7b96;border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:7px 14px;}
+  .cp-search{margin-left:auto;position:relative;display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:#cdd8ec;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 14px;min-width:240px;background:rgba(255,255,255,.04);}
+  .cps-ph{color:#6c7b96;}
+  #cpType{color:#EAF0FA;}
+  #cpType:empty + .cps-ph{display:inline;}
+  #cpType:not(:empty) + .cps-ph{display:none;}
+  .cps-caret{width:1.5px;height:13px;margin-left:2px;background:var(--cyan);opacity:0;}
+  .course-panel.searching .cps-caret{animation:cpBlink 1s steps(1) infinite;}
+  @keyframes cpBlink{50%{opacity:1;}}
+  .cl-row.hide{display:none;}
+  @media(max-width:720px){.cp-search{min-width:0;margin-left:0;width:100%;}}
   .cp-list{display:flex;flex-direction:column;}
   .cl-row{display:grid;grid-template-columns:12px 1fr 150px 110px;gap:18px;align-items:center;padding:16px 6px;border-bottom:1px solid rgba(255,255,255,.07);
     opacity:0;transform:translateY(12px);transition:opacity .55s ease, transform .55s cubic-bezier(.2,.75,.2,1), background .2s ease;border-radius:10px;}
@@ -1239,44 +1248,44 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Courses sorted by <span class="serif">what they are doing now.</span></h2>
-      <p>Teaching is not one list. A course is running, upcoming or finished, and the grid sorts on exactly that. Search by code, type or section when the tabs are not enough.</p>
+      <p>One view of every course, its format, section, class size and how far it has run. Filter by what a course is doing now, or just search for the one you want.</p>
     </div>
     <div class="glass-card course-panel" id="coursePanel">
       <div class="cp-tabs">
-        <span class="cp-tab active">All <b data-count="14">14</b></span>
-        <span class="cp-tab">In progress <b data-count="4">4</b></span>
-        <span class="cp-tab">Upcoming <b data-count="3">3</b></span>
-        <span class="cp-tab">Archived <b data-count="7">7</b></span>
-        <span class="cp-search">Search code, type or section</span>
+        <span class="cp-tab active" data-filter="all">All <b>14</b></span>
+        <span class="cp-tab" data-filter="live">In progress <b>4</b></span>
+        <span class="cp-tab" data-filter="up">Upcoming <b>3</b></span>
+        <span class="cp-tab" data-filter="done">Archived <b>7</b></span>
+        <span class="cp-search"><span id="cpType"></span><span class="cps-ph" id="cpPh">Search a course, format or section</span><span class="cps-caret"></span></span>
       </div>
       <div class="cp-list">
-        <div class="cl-row">
+        <div class="cl-row" data-state="live" data-text="data structures algorithms blended section a">
           <span class="cl-dot live"></span>
-          <div class="cl-main"><div class="cl-top"><span class="cl-code">CS301</span><span class="cl-name">Data Structures &amp; Algorithms</span></div><div class="cl-meta">4 credits · Blended · Section A · <b data-count="128">128</b> students</div></div>
+          <div class="cl-main"><div class="cl-top"><span class="cl-name">Data Structures &amp; Algorithms</span></div><div class="cl-meta">4 credits · Blended · Section A</div></div>
           <div class="cl-cov"><div class="cl-bar"><span style="--w:68%"></span></div><span class="cl-pct">68%</span></div>
           <span class="cl-state live">In progress</span>
         </div>
-        <div class="cl-row">
+        <div class="cl-row" data-state="live" data-text="signals systems live section b">
           <span class="cl-dot live"></span>
-          <div class="cl-main"><div class="cl-top"><span class="cl-code">EE210</span><span class="cl-name">Signals &amp; Systems</span></div><div class="cl-meta">3 credits · Live · Section B · <b data-count="86">86</b> students</div></div>
+          <div class="cl-main"><div class="cl-top"><span class="cl-name">Signals &amp; Systems</span></div><div class="cl-meta">3 credits · Live · Section B</div></div>
           <div class="cl-cov"><div class="cl-bar"><span style="--w:54%"></span></div><span class="cl-pct">54%</span></div>
           <span class="cl-state live">In progress</span>
         </div>
-        <div class="cl-row">
+        <div class="cl-row" data-state="live" data-text="operating systems blended section a">
           <span class="cl-dot live"></span>
-          <div class="cl-main"><div class="cl-top"><span class="cl-code">CS214</span><span class="cl-name">Operating Systems</span></div><div class="cl-meta">4 credits · Blended · Section A · <b data-count="102">102</b> students</div></div>
+          <div class="cl-main"><div class="cl-top"><span class="cl-name">Operating Systems</span></div><div class="cl-meta">4 credits · Blended · Section A</div></div>
           <div class="cl-cov"><div class="cl-bar"><span style="--w:61%"></span></div><span class="cl-pct">61%</span></div>
           <span class="cl-state live">In progress</span>
         </div>
-        <div class="cl-row">
+        <div class="cl-row" data-state="up" data-text="technical communication recorded section a">
           <span class="cl-dot up"></span>
-          <div class="cl-main"><div class="cl-top"><span class="cl-code">HS140</span><span class="cl-name">Technical Communication</span></div><div class="cl-meta">2 credits · Recorded · Section A · <b data-count="54">54</b> students</div></div>
+          <div class="cl-main"><div class="cl-top"><span class="cl-name">Technical Communication</span></div><div class="cl-meta">2 credits · Recorded · Section A</div></div>
           <div class="cl-cov"><div class="cl-bar"><span style="--w:4%"></span></div><span class="cl-pct">Starts Mon</span></div>
           <span class="cl-state up">Upcoming</span>
         </div>
-        <div class="cl-row">
+        <div class="cl-row" data-state="done" data-text="linear algebra blended section c">
           <span class="cl-dot done"></span>
-          <div class="cl-main"><div class="cl-top"><span class="cl-code">MA101</span><span class="cl-name">Linear Algebra</span></div><div class="cl-meta">4 credits · Blended · Section C · <b data-count="140">140</b> students</div></div>
+          <div class="cl-main"><div class="cl-top"><span class="cl-name">Linear Algebra</span></div><div class="cl-meta">4 credits · Blended · Section C</div></div>
           <div class="cl-cov"><div class="cl-bar"><span style="--w:100%"></span></div><span class="cl-pct">100%</span></div>
           <span class="cl-state done">Archived</span>
         </div>
@@ -1838,6 +1847,57 @@
       entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } else { e.target.classList.remove('in'); } });
     }, {threshold:0.4});
     lists.forEach(function(l){ io.observe(l); });
+  })();
+
+  /* courses: clickable state filters + a typed-search demo on scroll */
+  (function coursesDemo(){
+    var panel = document.getElementById('coursePanel');
+    if(!panel) return;
+    var tabs = Array.prototype.slice.call(panel.querySelectorAll('.cp-tab'));
+    var rows = Array.prototype.slice.call(panel.querySelectorAll('.cl-row'));
+    var typeEl = document.getElementById('cpType');
+    var activeFilter = 'all', query = '';
+    function apply(){
+      rows.forEach(function(r){
+        var okState = activeFilter === 'all' || r.getAttribute('data-state') === activeFilter;
+        var okQuery = !query || r.getAttribute('data-text').indexOf(query) > -1;
+        r.classList.toggle('hide', !(okState && okQuery));
+      });
+    }
+    function setTab(f){
+      activeFilter = f;
+      tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-filter') === f); });
+      apply();
+    }
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){ query=''; typeEl.textContent=''; panel.classList.remove('searching'); setTab(t.getAttribute('data-filter')); });
+    });
+
+    var reduceD = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function typeText(str, done){
+      panel.classList.add('searching'); var i=0;
+      (function step(){ if(i<=str.length){ typeEl.textContent=str.slice(0,i); query=str.slice(0,i).toLowerCase(); apply(); i++; setTimeout(step,85);} else if(done){done();} })();
+    }
+    function clearText(done){
+      (function step(){ var t=typeEl.textContent; if(t.length){ t=t.slice(0,-1); typeEl.textContent=t; query=t.toLowerCase(); apply(); setTimeout(step,45);} else { query=''; apply(); if(done)done(); } })();
+    }
+    function sequence(){
+      setTimeout(function(){ typeText('operating', function(){
+        setTimeout(function(){ clearText(function(){
+          panel.classList.remove('searching');
+          setTimeout(function(){ setTab('live');
+          setTimeout(function(){ setTab('up');
+          setTimeout(function(){ setTab('done');
+          setTimeout(function(){ setTab('all'); }, 1100); }, 1100); }, 1100); }, 500);
+        }); }, 1300);
+      }); }, 600);
+    }
+    if(reduceD || !('IntersectionObserver' in window)) return;
+    var ran=false;
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting && !ran){ ran=true; sequence(); io.unobserve(panel); } });
+    }, {threshold:0.45});
+    io.observe(panel);
   })();
 
   /* building-blocks accordion: expand a header to show its line */
